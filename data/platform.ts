@@ -698,6 +698,7 @@ export const researcherRecords: Researcher[] = [
     focus: "Media and semiconductor industries",
     contribution: "Arya researched companies in the Media and Semiconductor industries, helping collect and organize supporting research for company assessments.",
     photoPosition: "center",
+    photo: "/images/team/arya-bonthu.jpeg",
   },
   {
     slug: "sid-harish",
