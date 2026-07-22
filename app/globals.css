@@ -96,6 +96,17 @@ body {
 .button-secondary {
   @apply focus-ring inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[.04] px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[.07];
 }
+.lovable-hero {
+  background:
+    radial-gradient(circle at 75% 45%, rgb(36 125 183 / .08), transparent 32%),
+    #101d29;
+}
+.lovable-primary {
+  @apply focus-ring inline-flex items-center justify-center gap-2 rounded-xl bg-slate-50 px-6 py-4 text-sm font-semibold text-slate-950 shadow-lg shadow-black/10 hover:-translate-y-0.5 hover:bg-white;
+}
+.lovable-secondary {
+  @apply focus-ring inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[.045] px-6 py-4 text-sm font-semibold text-white hover:-translate-y-0.5 hover:border-sky-400/40 hover:bg-white/[.07];
+}
 .link-arrow {
   @apply focus-ring inline-flex shrink-0 items-center gap-2 text-sm font-medium text-cyan transition hover:text-white;
 }

@@ -1,11 +1,20 @@
 "use client";
 import Link from "next/link";
-import { Menu, Search, X } from "lucide-react";
+import { BarChart3, Menu, Search, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { navItems } from "@/lib/data";
 import { cn } from "@/lib/utils";
-import { AccountLink } from "@/components/auth/account-link";
+
+const primaryNav = [
+  ["Leaderboard", "/leaderboard"],
+  ["Compare", "/compare"],
+  ["CSR Explorer", "/explorer"],
+  ["Why CSR & ESG?", "/why-csr"],
+  ["Research", "/research"],
+  ["Annual Report", "/annual-report"],
+  ["Methodology", "/methodology"],
+  ["About", "/about"],
+] as const;
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -23,49 +32,49 @@ export function Navbar() {
   const active = (href: string) => (href === "/" ? path === href : path.startsWith(href));
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/75 shadow-lg shadow-black/10 backdrop-blur-2xl supports-[backdrop-filter]:bg-ink/65">
-      <div className="mx-auto flex h-[5.25rem] max-w-[100rem] items-center justify-between px-5 sm:px-8 xl:px-10">
+      <div className="mx-auto flex h-20 max-w-[100rem] items-center gap-5 px-5 sm:px-8 xl:px-10">
         <Link
           href="/"
-          className="focus-ring text-2xl font-bold tracking-tight"
+          className="focus-ring flex shrink-0 items-center gap-3"
           aria-label="Impact500 home"
         >
-          <span className="mr-1.5 inline-grid size-8 place-items-center rounded-lg bg-accent text-base shadow-lg shadow-accent/25">
-            i
+          <span className="inline-grid size-11 place-items-center rounded-xl bg-sky-500 text-white shadow-lg shadow-sky-500/20">
+            <BarChart3 className="size-6" />
           </span>
-          impact<span className="text-cyan">500</span>
+          <span><span className="display block text-[1.65rem] leading-6 tracking-tight">Impact<span className="text-emerald-400">500</span></span><small className="mt-1 block text-[.58rem] font-medium uppercase tracking-[.28em] text-slate-500">CSR Research</small></span>
         </Link>
-        <nav className="hidden items-center gap-1 xl:flex" aria-label="Main navigation">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 xl:flex" aria-label="Main navigation">
           <Link
             href="/"
             className={cn(
-              "focus-ring rounded-lg px-3 py-2 text-sm font-medium text-zinc-400 transition duration-200 hover:bg-white/[.045] hover:text-white",
-              active("/") && "bg-white/[.055] text-white",
+              "focus-ring rounded-xl px-4 py-3 text-[.95rem] font-medium text-slate-400 hover:bg-sky-500/10 hover:text-white",
+              active("/") && "bg-sky-500/20 text-white",
             )}
           >
             Home
           </Link>
-          {navItems.map(([label, href]) => (
+          {primaryNav.map(([label, href]) => (
             <Link
               key={href}
               href={href}
               aria-current={active(href) ? "page" : undefined}
               className={cn(
-                "focus-ring rounded-lg px-3 py-2 text-sm font-medium text-zinc-400 transition duration-200 hover:bg-white/[.045] hover:text-white",
-                active(href) && "bg-white/[.055] text-white",
+                "focus-ring rounded-xl px-3 py-3 text-[.95rem] font-medium leading-tight text-slate-400 hover:bg-sky-500/10 hover:text-white",
+                active(href) && "bg-sky-500/20 text-white",
               )}
             >
               {label}
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-3">
-          <AccountLink configured={Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY)} />
+        <div className="ml-auto flex items-center gap-3">
           <Link
             href="/search"
             aria-label="Search Impact500"
-            className="focus-ring rounded-xl p-2.5 text-zinc-300 transition hover:-translate-y-0.5 hover:bg-white/10"
+            className="focus-ring flex items-center gap-2 rounded-xl border border-white/15 bg-white/[.035] px-3.5 py-2.5 text-sm text-slate-500 hover:border-sky-400/40 hover:text-slate-200"
           >
             <Search className="size-4" />
+            <span className="hidden 2xl:inline">Search companies, industries…</span>
           </Link>
           <button
             onClick={() => setOpen(!open)}
@@ -91,7 +100,7 @@ export function Navbar() {
           >
             Home
           </Link>
-          {navItems.map(([label, href]) => (
+          {primaryNav.map(([label, href]) => (
             <Link
               onClick={() => setOpen(false)}
               key={href}

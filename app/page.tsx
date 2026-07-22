@@ -10,11 +10,10 @@ import {
   Scale,
   Search,
   SlidersHorizontal,
-  Sparkles,
   TrendingUp,
 } from "lucide-react";
 import { MetricCounter } from "@/components/impact/home-sections";
-import { Badge, SectionTitle } from "@/components/ui/primitives";
+import { SectionTitle } from "@/components/ui/primitives";
 import { Reveal } from "@/components/ui/reveal";
 import { companies, reports, research } from "@/lib/data";
 import { pageMetadata } from "@/lib/metadata";
@@ -40,30 +39,30 @@ export default function HomePage() {
 
   return (
     <>
-      <section className="grid-bg hero-glow relative overflow-hidden border-b">
-        <div className="absolute inset-0 bg-gradient-to-b from-accent/[.12] via-transparent to-ink" />
-        <div className="relative mx-auto max-w-[100rem] px-5 py-24 sm:px-8 lg:py-36 xl:px-10">
+      <section className="lovable-hero relative overflow-hidden border-b">
+        <div className="relative mx-auto max-w-[100rem] px-5 pb-16 pt-24 sm:px-8 lg:min-h-[760px] lg:pb-20 lg:pt-28 xl:px-10">
           <Reveal>
-            <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
-              <Badge><Sparkles className="mr-1.5 size-3" />Independent corporate responsibility research</Badge>
-              <h1 className="display mt-8 text-5xl leading-[.96] sm:text-7xl lg:text-8xl xl:text-[6.5rem]">
-                Understanding Corporate Responsibility Across <em className="headline-gradient">America&apos;s Largest Companies</em>
+            <div className="max-w-[74rem]">
+              <p className="text-xs font-semibold uppercase tracking-[.38em] text-emerald-400 sm:text-sm">2026 research edition · {companies.length} company profiles · 6 research cycles</p>
+              <h1 className="display mt-7 max-w-[75rem] text-5xl leading-[.98] text-slate-50 sm:text-7xl lg:text-[5.4rem]">
+                Understanding Corporate Responsibility<br className="hidden lg:block" /> Across America&apos;s Largest Companies.
               </h1>
-              <p className="mt-8 max-w-4xl text-lg leading-8 text-slate-300 md:text-2xl md:leading-9">
-                Impact500 transforms public evidence into clear, comparable intelligence for researchers, investors, students, executives, and communities.
+              <p className="mt-7 max-w-4xl text-lg leading-8 text-slate-400 md:text-[1.4rem] md:leading-[1.55]">
+                Impact500 evaluates leading American companies across environmental responsibility, financial responsibility, philanthropy, and ethics — using a transparent, research-based methodology.
               </p>
-              <Link href="/search" className="focus-ring group mt-10 flex w-full max-w-4xl items-center gap-4 rounded-2xl border border-white/15 bg-panel/85 px-6 py-5 text-left text-slate-300 shadow-2xl shadow-black/30 backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-cyan/50">
-                <Search className="size-5 text-cyan" /><span>Search companies, industries, reports, and evidence</span><kbd className="ml-auto hidden rounded-lg border bg-ink px-2.5 py-1 text-xs sm:block">⌘ K</kbd>
+              <Link href="/search" className="focus-ring group mt-10 flex w-full max-w-4xl items-center rounded-2xl border border-sky-400/30 bg-slate-700/30 p-2.5 pl-6 text-left text-slate-400 shadow-inner shadow-black/20 hover:border-sky-400/60">
+                <Search className="mr-4 size-5 text-slate-500" /><span className="min-w-0 flex-1 truncate text-base sm:text-lg">Search any company, industry, ticker, or state…</span><span className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-sky-500 px-5 py-3.5 font-semibold text-white shadow-lg shadow-sky-500/20">Browse all <ArrowRight className="size-4" /></span>
               </Link>
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Link href="/leaderboard" className="button-primary">Explore Rankings <ArrowRight className="size-4" /></Link>
-                <Link href="/explorer" className="button-secondary">CSR Explorer</Link>
-                <Link href="/explorer#ranking-builder" className="button-secondary">Build Your Own Ranking</Link>
-                <Link href="/compare" className="button-secondary">Compare Companies</Link>
+              <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-500"><span className="mr-1 uppercase tracking-wider">Trending:</span>{["Patagonia", "Microsoft", "Apple", "Salesforce", "Walmart", "Nike"].map((name) => { const company = companies.find((item) => item.name === name); return company ? <Link key={name} href={`/companies/${company.slug}`} className="rounded-full border border-white/15 bg-white/[.035] px-3.5 py-1.5 hover:border-sky-400/40 hover:text-white">{name}</Link> : null; })}</div>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <Link href="/leaderboard" className="lovable-primary"><BarChart3 className="size-4 text-sky-500" />Full Leaderboard</Link>
+                <Link href="/explorer" className="lovable-secondary">CSR Explorer</Link>
+                <Link href="/explorer#ranking-builder" className="lovable-secondary"><SlidersHorizontal className="size-4 text-emerald-400" />Build Your Own Ranking</Link>
+                <Link href="/compare" className="lovable-secondary"><Scale className="size-4" />Compare</Link>
               </div>
             </div>
           </Reveal>
-          <div className="mt-20 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <div className="mt-16 grid grid-cols-2 gap-4 lg:grid-cols-4">
             <MetricCounter value={companies.length} label="Published profiles" />
             <MetricCounter value={companies.length * 4} suffix="+" label="Modeled CSR indicators" />
             <MetricCounter value={6} label="Research cycles" />
