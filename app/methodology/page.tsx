@@ -1,5 +1,6 @@
 import { SectionTitle } from "@/components/ui/primitives";
 import { pageMetadata } from "@/lib/metadata";
+import { MethodologyFramework } from "@/components/impact/methodology-framework";
 export const metadata = pageMetadata(
   "Methodology",
   "How Impact500 evaluates corporate responsibility.",
@@ -16,7 +17,7 @@ const steps = [
     "02",
     "evidence",
     "Evidence",
-    "More than 2,000 data points are reviewed against documented research standards.",
+    "More than 800 published pillar values are structured for review against documented research standards.",
   ],
   [
     "03",
@@ -33,7 +34,7 @@ const steps = [
 ];
 export default function Methodology() {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-16">
+    <section className="page-shell">
       <SectionTitle
         eyebrow="How we work"
         title={
@@ -57,7 +58,7 @@ export default function Methodology() {
       <div className="mt-12 rounded-2xl border bg-panel p-8">
         <h2 className="text-2xl font-semibold">The four pillars</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-4">
-          {["Environment", "People", "Ethics", "Community"].map((pillar) => (
+          {["Environmental", "Financial responsibility", "Philanthropy", "Ethics"].map((pillar) => (
             <div className="rounded-xl border border-white/10 bg-ink p-4" key={pillar}>
               <h3 className="font-medium text-cyan">{pillar}</h3>
               <p className="mt-2 text-sm leading-6 text-zinc-400">
@@ -71,6 +72,14 @@ export default function Methodology() {
           methodology documents them plainly.
         </p>
       </div>
+      <div className="mt-20">
+        <MethodologyFramework />
+      </div>
+      <section className="mt-20 grid gap-5 lg:grid-cols-3">
+        <article className="surface-card"><p className="text-xs uppercase tracking-wider text-cyan">Limitations</p><h2 className="mt-5 text-2xl font-semibold">What the index cannot claim.</h2><p className="mt-4 leading-7 text-zinc-400">Public evidence is incomplete and uneven. Scores describe documented performance within a defined model, not every dimension of corporate conduct.</p></article>
+        <article className="surface-card"><p className="text-xs uppercase tracking-wider text-cyan">Research principles</p><h2 className="mt-5 text-2xl font-semibold">Comparable, transparent, revisable.</h2><p className="mt-4 leading-7 text-zinc-400">Every conclusion must be traceable to evidence, consistently evaluated, and open to revision when stronger information appears.</p></article>
+        <article className="surface-card"><p className="text-xs uppercase tracking-wider text-cyan">Version history</p><h2 className="mt-5 text-2xl font-semibold">Framework 4.2 · 2026</h2><p className="mt-4 leading-7 text-zinc-400">The current release strengthens outcome validation, source freshness, AI governance, and cross-sector normalization.</p></article>
+      </section>
     </section>
   );
 }

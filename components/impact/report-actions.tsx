@@ -1,12 +1,16 @@
 "use client";
-import { Download, ExternalLink, Printer } from "lucide-react";
-export function ReportActions({ pdf }: { pdf: string }) {
+import { Download, Expand, ExternalLink, Printer } from "lucide-react";
+import { BookmarkButton } from "@/components/member/bookmark-button";
+import { useMemberData } from "@/components/member/member-data";
+export function ReportActions({ pdf, slug, title }: { pdf: string; slug: string; title: string }) {
+  const { recordActivity } = useMemberData();
   return (
     <div className="mt-10 flex flex-wrap gap-3">
       <a
         href={pdf}
         download
-        className="focus-ring inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium hover:bg-blue-500"
+        onClick={() => recordActivity({ type: "download", slug, title, href: pdf })}
+        className="button-primary"
       >
         <Download className="size-4" />
         Download PDF
@@ -15,7 +19,7 @@ export function ReportActions({ pdf }: { pdf: string }) {
         href={pdf}
         target="_blank"
         rel="noreferrer"
-        className="focus-ring inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm hover:bg-white/5"
+        className="button-secondary"
       >
         <ExternalLink className="size-4" />
         Open in tab
@@ -23,10 +27,24 @@ export function ReportActions({ pdf }: { pdf: string }) {
       <button
         type="button"
         onClick={() => window.print()}
-        className="focus-ring inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm hover:bg-white/5"
+        className="button-secondary"
       >
         <Printer className="size-4" />
         Print
+      </button>
+      <BookmarkButton
+        type="report"
+        slug={slug}
+        title={title}
+        href={`/annual-report?report=${slug}`}
+      />
+      <button
+        type="button"
+        onClick={() => document.getElementById("report-viewer")?.requestFullscreen()}
+        className="button-secondary"
+      >
+        <Expand className="size-4" />
+        Full screen
       </button>
     </div>
   );

@@ -21,10 +21,10 @@ export function SectionTitle({
   text?: string;
 }) {
   return (
-    <div className="max-w-2xl">
-      <p className="mb-3 text-xs font-semibold uppercase tracking-[.18em] text-cyan">{eyebrow}</p>
-      <h1 className="display text-4xl leading-tight md:text-6xl">{title}</h1>
-      {text && <p className="mt-5 text-lg leading-8 text-zinc-400">{text}</p>}
+    <div className="max-w-3xl">
+      <p className="mb-4 text-xs font-semibold uppercase tracking-[.2em] text-cyan">{eyebrow}</p>
+      <h1 className="display text-4xl leading-[1.02] sm:text-5xl md:text-6xl xl:text-7xl">{title}</h1>
+      {text && <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-300 md:text-xl">{text}</p>}
     </div>
   );
 }

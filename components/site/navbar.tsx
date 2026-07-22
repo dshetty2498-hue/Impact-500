@@ -2,29 +2,44 @@
 import Link from "next/link";
 import { Menu, Search, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { navItems } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { AccountLink } from "@/components/auth/account-link";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const path = usePathname();
+  useEffect(() => {
+    const openSearch = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        window.location.assign("/search");
+      }
+    };
+    window.addEventListener("keydown", openSearch);
+    return () => window.removeEventListener("keydown", openSearch);
+  }, []);
   const active = (href: string) => (href === "/" ? path === href : path.startsWith(href));
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
-        <Link href="/" className="focus-ring text-xl font-bold tracking-tight">
-          <span className="mr-1 inline-grid size-6 place-items-center rounded bg-accent text-sm">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/75 shadow-lg shadow-black/10 backdrop-blur-2xl supports-[backdrop-filter]:bg-ink/65">
+      <div className="mx-auto flex h-[5.25rem] max-w-[100rem] items-center justify-between px-5 sm:px-8 xl:px-10">
+        <Link
+          href="/"
+          className="focus-ring text-2xl font-bold tracking-tight"
+          aria-label="Impact500 home"
+        >
+          <span className="mr-1.5 inline-grid size-8 place-items-center rounded-lg bg-accent text-base shadow-lg shadow-accent/25">
             i
           </span>
           impact<span className="text-cyan">500</span>
         </Link>
-        <nav className="hidden items-center gap-3 xl:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-1 xl:flex" aria-label="Main navigation">
           <Link
             href="/"
             className={cn(
-              "focus-ring text-xs text-zinc-400 transition hover:text-white",
-              active("/") && "text-white",
+              "focus-ring rounded-lg px-3 py-2 text-sm font-medium text-zinc-400 transition duration-200 hover:bg-white/[.045] hover:text-white",
+              active("/") && "bg-white/[.055] text-white",
             )}
           >
             Home
@@ -35,8 +50,8 @@ export function Navbar() {
               href={href}
               aria-current={active(href) ? "page" : undefined}
               className={cn(
-                "focus-ring text-xs text-zinc-400 transition hover:text-white",
-                active(href) && "text-white",
+                "focus-ring rounded-lg px-3 py-2 text-sm font-medium text-zinc-400 transition duration-200 hover:bg-white/[.045] hover:text-white",
+                active(href) && "bg-white/[.055] text-white",
               )}
             >
               {label}
@@ -44,10 +59,11 @@ export function Navbar() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <AccountLink configured={Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY)} />
           <Link
             href="/search"
             aria-label="Search Impact500"
-            className="focus-ring rounded-md p-2 text-zinc-300 hover:bg-white/10"
+            className="focus-ring rounded-xl p-2.5 text-zinc-300 transition hover:-translate-y-0.5 hover:bg-white/10"
           >
             <Search className="size-4" />
           </Link>
@@ -65,7 +81,7 @@ export function Navbar() {
       {open && (
         <nav
           id="mobile-menu"
-          className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-white/10 px-5 py-4 xl:hidden"
+          className="max-h-[calc(100vh-5.25rem)] overflow-y-auto border-t border-white/10 bg-ink/90 px-5 py-4 backdrop-blur-2xl xl:hidden"
           aria-label="Mobile navigation"
         >
           <Link

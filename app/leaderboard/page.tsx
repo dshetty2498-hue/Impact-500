@@ -8,9 +8,9 @@ export const metadata = pageMetadata(
 );
 export default function LeaderboardPage() {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-16">
+    <section className="page-shell">
       <SectionTitle
-        eyebrow="2025 Impact500 Index"
+        eyebrow="Impact500 research index"
         title="The corporate responsibility leaderboard."
         text="A comparable view of verified performance, updated with each published research cycle."
       />

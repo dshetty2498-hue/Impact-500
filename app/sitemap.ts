@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { companies, research } from "@/lib/data";
+import { companies, industries, news, research } from "@/lib/data";
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://impact500.org";
   const paths = [
@@ -7,11 +7,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/leaderboard",
     "/compare",
     "/explorer",
+    "/industries",
+    "/dashboard",
+    "/map",
     "/research",
+    "/news",
     "/annual-report",
     "/methodology",
     "/why-csr",
     "/about",
+    "/building-impact500",
+    "/team",
+    "/impact",
+    "/architecture",
+    "/editorial-standards",
+    "/media",
+    "/partnerships",
     "/search",
     "/privacy",
     "/terms",
@@ -35,6 +46,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    ...industries.map((industry) => ({
+      url: `${base}/industries/${industry.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+    ...news.map((item) => ({
+      url: `${base}/news#${item.slug}`,
+      lastModified: new Date(item.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
   ];
 }

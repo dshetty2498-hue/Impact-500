@@ -1,6 +1,19 @@
 # Impact500
 
-Impact500 is a production-ready research platform for publishing comparable corporate-responsibility intelligence. It includes an index, company profiles, comparison and prioritization tools, interactive visualizations, full-site search, editorial research, and embedded annual reports.
+Impact500 is a production-ready research platform for publishing comparable corporate-responsibility intelligence. It includes member workspaces, watchlists, bookmarks, an index, company profiles, six-company comparison, map exploration, accessible visualizations, full-site search, editorial research, and embedded annual reports.
+
+The bundled research universe contains 202 company profiles: 200 Fortune-ranked records plus two
+additional research profiles. Eight are curated demonstrations and 194 are generated research-queue
+records based on historical Fortune structural data.
+Generated CSR scores, initiatives, news, and narrative analysis are modeled placeholders and are
+identified as such throughout the interface. Regenerate the supplement with
+`python3 scripts/generate_fortune_supplement.py` after supplying the source CSV at the documented
+temporary path.
+
+The institutional layer documents Impact500's mission, team, project history, impact measures,
+technical architecture, editorial standards, media guidance, and partnership principles. These
+pages are grouped under the shared Institute navigation rather than crowding the primary product
+navigation.
 
 ## 1. Project Overview
 
@@ -14,6 +27,9 @@ Next.js 15 App Router, React 19, TypeScript, Tailwind CSS, Framer Motion, Rechar
 
 - `app/` — App Router pages, metadata, sitemap, robots, manifest, and error boundaries
 - `components/impact/` — search, comparison, responsive charts, tables, and report tools
+- `components/member/` — bookmarks, watchlists, history, notifications, and member workspace state
+- `components/auth/` — Clerk identity boundary and credential-safe fallbacks
+- `data/` — typed research seed used by the repository fallback
 - `components/site/` — persistent navigation, footer, and newsletter form
 - `components/ui/` — shared visual primitives and motion wrappers
 - `lib/` — typed data repository, metadata helpers, utilities, and server clients
@@ -44,13 +60,14 @@ Open `http://localhost:3000`. The public application runs from structured local 
 
 ## 6. Environment Variables
 
-| Variable                            | Required              | Purpose                                                            |
-| ----------------------------------- | --------------------- | ------------------------------------------------------------------ |
-| `NEXT_PUBLIC_SITE_URL`              | Production            | Absolute canonical origin used by metadata, sitemap, and robots    |
-| `NEXT_PUBLIC_SUPABASE_URL`          | Optional              | Supabase project URL for the future live repository                |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY`     | Optional              | Public Supabase key protected by row-level security                |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Optional              | Browser-safe Clerk application key                                 |
-| `CLERK_SECRET_KEY`                  | Optional, server only | Clerk server credential; never expose with a `NEXT_PUBLIC_` prefix |
+| Variable                            | Required              | Purpose                                                             |
+| ----------------------------------- | --------------------- | ------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`              | Production            | Absolute canonical origin used by metadata, sitemap, and robots     |
+| `NEXT_PUBLIC_SUPABASE_URL`          | Optional              | Supabase project URL for the future live repository                 |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`     | Optional              | Public Supabase key protected by row-level security                 |
+| `SUPABASE_SERVICE_ROLE_KEY`         | Optional, server only | Trusted key for authenticated server actions; never expose publicly |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Optional              | Browser-safe Clerk application key                                  |
+| `CLERK_SECRET_KEY`                  | Optional, server only | Clerk server credential; never expose with a `NEXT_PUBLIC_` prefix  |
 
 The full public site builds without Supabase or Clerk credentials. Never commit `.env.local`.
 
@@ -72,8 +89,9 @@ pnpm start
 2. Import the repository into Vercel.
 3. Keep the detected framework preset as **Next.js** and package manager as **pnpm**.
 4. Set `NEXT_PUBLIC_SITE_URL` to the final HTTPS origin in Vercel Project Settings.
-5. Add the optional Supabase and Clerk variables only when those services are enabled.
-6. Deploy. Vercel uses the standard `pnpm build` command and requires no custom server.
+5. To enable member accounts, add both Clerk variables and configure `/account/sign-in`, `/account/sign-up`, and `/account` as allowed redirect URLs.
+6. To sync member data across devices, apply the schema and add the Supabase URL, anon key, and server-only service-role key.
+7. Deploy. Vercel uses the standard `pnpm build` command and requires no custom server.
 
 `NEXT_PUBLIC_SITE_URL` should be set to the production canonical URL for correct sitemap, robots, and metadata URLs.
 
@@ -81,7 +99,7 @@ Security and cache response headers are configured in `next.config.ts`. Next.js 
 
 ### Database activation
 
-Apply `db/schema.sql` through the Supabase SQL editor or migration tooling. It defines the relational contract, indexes, score history, research sources, annual reports, users, and favorites RLS policy. Configure Clerk redirect URLs for the deployed domain before enabling authenticated features.
+Apply `db/schema.sql` through the Supabase SQL editor or migration tooling. It defines the relational contract, indexes, score history, research sources, reports, users, saved items, watchlists, activity, comparisons, notification preferences, and RLS policies. Configure Clerk's Supabase JWT integration before enabling cross-device member persistence.
 
 ## 9. Future Improvements
 

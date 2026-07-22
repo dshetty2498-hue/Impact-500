@@ -7,7 +7,7 @@ export const metadata = pageMetadata(
 );
 export default function WhyCsr() {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-16">
+    <section className="page-shell">
       <SectionTitle
         eyebrow="The case for accountability"
         title={

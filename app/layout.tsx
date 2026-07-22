@@ -3,11 +3,13 @@ import "./globals.css";
 import { Footer } from "@/components/site/footer";
 import { Navbar } from "@/components/site/navbar";
 import { siteUrl } from "@/lib/metadata";
+import { AuthShell } from "@/components/auth/auth-shell";
+import { AccessibilityControls } from "@/components/site/accessibility-controls";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Impact500 | Corporate responsibility, made legible",
+    default: "Impact500 | Corporate responsibility intelligence",
     template: "%s | Impact500",
   },
   description:
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
 };
 export const viewport: Viewport = {
   colorScheme: "dark",
-  themeColor: "#050816",
+  themeColor: "#07111F",
   width: "device-width",
   initialScale: 1,
 };
@@ -40,21 +42,24 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-        <a
-          href="#content"
-          className="focus-ring sr-only fixed left-4 top-4 z-[100] rounded bg-cyan px-4 py-2 text-ink focus:not-sr-only"
-        >
-          Skip to content
-        </a>
-        <Navbar />
-        <main id="content" className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        <AuthShell publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          />
+          <a
+            href="#content"
+            className="focus-ring sr-only fixed left-4 top-4 z-[100] rounded bg-cyan px-4 py-2 text-ink focus:not-sr-only"
+          >
+            Skip to content
+          </a>
+          <Navbar />
+          <main id="content" className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+          <AccessibilityControls />
+        </AuthShell>
       </body>
     </html>
   );

@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Independent corporate responsibility intelligence.",
     start_url: "/",
     display: "standalone",
-    background_color: "#050816",
-    theme_color: "#050816",
+    background_color: "#07111F",
+    theme_color: "#07111F",
     icons: [{ src: "/icon.svg", sizes: "any", type: "image/svg+xml" }],
   };
 }

@@ -13,12 +13,12 @@ export default function OpenGraphImage() {
         flexDirection: "column",
         justifyContent: "center",
         padding: "80px",
-        background: "#050816",
+        background: "#07111F",
         color: "white",
-        backgroundImage: "radial-gradient(circle at 85% 20%, #4f7eff55, transparent 30%)",
+        backgroundImage: "radial-gradient(circle at 85% 20%, #3b82f655, transparent 30%)",
       }}
     >
-      <div style={{ color: "#6EE7F9", fontSize: 28, letterSpacing: 8 }}>IMPACT500</div>
+      <div style={{ color: "#60A5FA", fontSize: 28, letterSpacing: 8 }}>IMPACT500</div>
       <div style={{ fontFamily: "serif", fontSize: 78, marginTop: 30, lineHeight: 1 }}>
         Corporate responsibility,
         <br />

@@ -1,33 +1,53 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { FormEvent, useId, useState } from "react";
 
 export function Newsletter() {
+  const inputId = useId();
   const [message, setMessage] = useState("");
-  function submit(event: FormEvent<HTMLFormElement>) {
+  const [pending, setPending] = useState(false);
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setMessage("You’re on the list. Thank you.");
-    event.currentTarget.reset();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    setPending(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: data.get("email"), website: data.get("website") }),
+      });
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) throw new Error(result.error ?? "Subscription failed.");
+      setMessage("You’re subscribed. Thank you.");
+      form.reset();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Subscription failed.");
+    } finally {
+      setPending(false);
+    }
   }
   return (
     <form onSubmit={submit}>
-      <label htmlFor="newsletter" className="sr-only">
+      <label htmlFor={inputId} className="sr-only">
         Email address
       </label>
-      <div className="mt-3 flex">
+      <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+      <div className="mt-4 flex gap-2">
         <input
-          id="newsletter"
+          id={inputId}
           name="email"
           type="email"
           required
           autoComplete="email"
-          className="focus-ring min-w-0 rounded-l-md border bg-white/5 px-3 py-2 text-sm"
+          className="form-control min-w-0 flex-1"
           placeholder="you@example.com"
         />
-        <button className="focus-ring rounded-r-md bg-accent px-3 text-sm font-medium hover:bg-blue-500">
-          Join
+        <button disabled={pending} className="button-primary shrink-0 px-4 py-3 disabled:opacity-60">
+          {pending ? "Joining…" : "Join"}
         </button>
       </div>
-      <p className="mt-2 min-h-5 text-xs text-emerald-400" role="status">
+      <p className="mt-2 min-h-5 text-xs text-slate-300" role="status">
         {message}
       </p>
     </form>

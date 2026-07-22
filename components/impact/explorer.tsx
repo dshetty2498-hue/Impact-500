@@ -3,13 +3,13 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { companies } from "@/lib/data";
 import { Score } from "@/components/ui/primitives";
-const pillarKeys = ["Environment", "People", "Ethics", "Community"];
+const pillarKeys = ["Environmental", "Philanthropy", "Ethics", "Financial responsibility"] as const;
 export function Explorer() {
   const [weights, setWeights] = useState<Record<string, number>>({
-    Environment: 75,
-    People: 55,
+    Environmental: 75,
+    Philanthropy: 55,
     Ethics: 90,
-    Community: 60,
+    "Financial responsibility": 60,
   });
   const matches = useMemo(
     () =>
@@ -18,7 +18,7 @@ export function Explorer() {
           ...c,
           match:
             Object.entries(weights).reduce(
-              (sum, [key, weight]) => sum + c.pillars[key] * weight,
+              (sum, [key, weight]) => sum + c.pillars[key as keyof typeof c.pillars] * weight,
               0,
             ) / Object.values(weights).reduce((sum, n) => sum + n, 0),
         }))
@@ -41,7 +41,7 @@ export function Explorer() {
                 <span className="text-cyan">{weights[key]}%</span>
               </span>
               <input
-                className="w-full accent-[#6EE7F9]"
+                className="w-full accent-[#60A5FA]"
                 type="range"
                 min="0"
                 max="100"

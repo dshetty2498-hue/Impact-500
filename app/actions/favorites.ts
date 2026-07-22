@@ -1,11 +1,12 @@
 "use server";
 
 import { getSupabase } from "@/lib/supabase/server";
+import { auth } from "@clerk/nextjs/server";
 
-export async function setFavorite(clerkUserId: string, companyId: string, active: boolean) {
-  const clerkIdPattern = /^user_[A-Za-z0-9]+$/;
+export async function setFavorite(companyId: string, active: boolean) {
+  const { userId } = await auth();
   const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  if (!clerkIdPattern.test(clerkUserId) || !uuidPattern.test(companyId)) {
+  if (!userId || !uuidPattern.test(companyId)) {
     throw new Error("The favorite request is invalid.");
   }
   const supabase = getSupabase();
@@ -13,14 +14,14 @@ export async function setFavorite(clerkUserId: string, companyId: string, active
   if (active) {
     const { error } = await supabase
       .from("favorites")
-      .upsert({ clerk_user_id: clerkUserId, company_id: companyId });
+      .upsert({ clerk_user_id: userId, company_id: companyId });
     if (error) throw new Error("Unable to save favorite.");
     return;
   }
   const { error } = await supabase
     .from("favorites")
     .delete()
-    .eq("clerk_user_id", clerkUserId)
+    .eq("clerk_user_id", userId)
     .eq("company_id", companyId);
   if (error) throw new Error("Unable to remove favorite.");
 }
