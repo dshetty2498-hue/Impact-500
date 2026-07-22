@@ -103,6 +103,7 @@ export type Researcher = {
   focus: string;
   contribution: string;
   photoPosition: string;
+  photo?: string;
 };
 
 export type MethodologySection = { slug: string; title: string; summary: string };
