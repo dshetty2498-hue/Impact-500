@@ -11,6 +11,9 @@ import {
 } from "@/components/impact/charts";
 import { SectionTitle } from "@/components/ui/primitives";
 import { pageMetadata } from "@/lib/metadata";
+import { gradingScale } from "@/lib/grading";
+import { CompanyLogo } from "@/components/impact/company-logo";
+import { average, calculateAllIndustryStats, formatIndustryNumber } from "@/lib/industry-data";
 export const metadata = pageMetadata(
   "CSR Intelligence Dashboard",
   "Interactive Impact500 score distributions, trends, industry rankings, and company performance.",
@@ -18,33 +21,90 @@ export const metadata = pageMetadata(
 );
 export default function DashboardPage() {
   const ranked = [...companies].sort((a, b) => b.score - a.score);
-  const fastestImproving = [...companies].sort((a, b) => b.change - a.change);
-  const industryData = industries.map((industry) => {
-    const members = companies.filter((company) => company.industrySlug === industry.slug);
-    return {
-      label: industry.name,
-      score: Number(
-        (members.reduce((sum, company) => sum + company.score, 0) / members.length).toFixed(1),
-      ),
-    };
-  });
-  const gradeData = [...new Set(companies.map((company) => company.grade))].map((grade) => ({
+  const industryStats = calculateAllIndustryStats(companies);
+  const industryData = industryStats.flatMap((industry) =>
+    industry.averageScore === null ? [] : [{ label: industry.name, score: industry.averageScore }],
+  );
+  const gradeData = gradingScale.map(({ grade, hex }) => ({
     name: grade,
     value: companies.filter((company) => company.grade === grade).length,
+    color: hex,
   }));
-  const stateNames = [...new Set(companies.map((company) => company.headquarters.split(", ").at(-1) ?? "Other"))];
-  const stateData = stateNames.map((state) => {
-    const members = companies.filter((company) => company.headquarters.endsWith(state));
-    return { label: state, score: Number((members.reduce((sum, company) => sum + company.score, 0) / members.length).toFixed(1)) };
-  }).sort((a, b) => b.score - a.score);
-  const topStates = [...stateNames].sort((a, b) => companies.filter((company) => company.headquarters.endsWith(b)).length - companies.filter((company) => company.headquarters.endsWith(a)).length).slice(0, 8);
-  const scoreDistribution = [["90–100", 90, 101], ["85–89.9", 85, 90], ["80–84.9", 80, 85], ["Below 80", 0, 80]].map(([name, low, high]) => ({ name: String(name), value: companies.filter((company) => company.score >= Number(low) && company.score < Number(high)).length }));
-  const fortuneDistribution = [["Top 25", 1, 25], ["26–50", 26, 50], ["51–100", 51, 100], ["101–500", 101, 500]].map(([name, low, high]) => ({ name: String(name), value: companies.filter((company) => company.fortuneRank !== null && company.fortuneRank >= Number(low) && company.fortuneRank <= Number(high)).length }));
-  const trendIndustries = [...industries].filter((industry) => companies.some((company) => company.industrySlug === industry.slug)).sort((a, b) => companies.filter((company) => company.industrySlug === b.slug).length - companies.filter((company) => company.industrySlug === a.slug).length).slice(0, 8);
-  const industryTrendSeries = trendIndustries.map((industry) => ({ key: industry.slug, label: industry.name }));
-  const industryTrends = [2021, 2022, 2023, 2024, 2025, 2026].map((year) => Object.fromEntries([["label", String(year)], ...trendIndustries.map((industry) => { const members = companies.filter((company) => company.industrySlug === industry.slug); return [industry.slug, Number((members.reduce((sum, company) => sum + (company.historicalScores.find((point) => point.year === year)?.score ?? 0), 0) / members.length).toFixed(1))]; })]));
-  const regionalSeries = topStates.map((state) => ({ key: state.toLowerCase().replace(/[^a-z]+/g, "-"), label: state }));
-  const regionalTrends = [2021, 2022, 2023, 2024, 2025, 2026].map((year) => Object.fromEntries([["label", String(year)], ...topStates.map((state) => { const members = companies.filter((company) => company.headquarters.endsWith(state)); return [state.toLowerCase().replace(/[^a-z]+/g, "-"), Number((members.reduce((sum, company) => sum + (company.historicalScores.find((point) => point.year === year)?.score ?? 0), 0) / members.length).toFixed(1))]; })]));
+  const stateNames = [
+    ...new Set(companies.map((company) => company.headquarters.split(", ").at(-1) ?? "Other")),
+  ];
+  const stateData = stateNames
+    .map((state) => {
+      const members = companies.filter((company) => company.headquarters.endsWith(state));
+      return {
+        label: state,
+        score: average(members.map((company) => company.score))!,
+      };
+    })
+    .sort((a, b) => b.score - a.score);
+  const topStates = [...stateNames]
+    .sort(
+      (a, b) =>
+        companies.filter((company) => company.headquarters.endsWith(b)).length -
+        companies.filter((company) => company.headquarters.endsWith(a)).length,
+    )
+    .slice(0, 8);
+  const scoreDistribution = gradingScale.map(({ grade, range, minimum, maximum, hex }) => ({
+    name: `${grade} · ${range}`,
+    value: companies.filter((company) => company.score >= minimum && company.score <= maximum)
+      .length,
+    color: hex,
+  }));
+  const fortuneDistribution = [
+    ["Top 25", 1, 25],
+    ["26–50", 26, 50],
+    ["51–100", 51, 100],
+    ["101–500", 101, 500],
+  ].map(([name, low, high]) => ({
+    name: String(name),
+    value: companies.filter(
+      (company) =>
+        company.fortuneRank !== null &&
+        company.fortuneRank >= Number(low) &&
+        company.fortuneRank <= Number(high),
+    ).length,
+  }));
+  const trendIndustries = [...industryStats]
+    .sort((a, b) => b.companyCount - a.companyCount)
+    .slice(0, 8);
+  const industryTrendSeries = trendIndustries.map((industry) => ({
+    key: industry.slug,
+    label: industry.name,
+  }));
+  const industryTrends = [2026].map((year) =>
+    Object.fromEntries([
+      ["label", String(year)],
+      ...trendIndustries.map((industry) => {
+        const point = industry.trend.find((item) => item.year === year);
+        return [industry.slug, point?.score];
+      }),
+    ]),
+  );
+  const regionalSeries = topStates.map((state) => ({
+    key: state.toLowerCase().replace(/[^a-z]+/g, "-"),
+    label: state,
+  }));
+  const regionalTrends = [2026].map((year) =>
+    Object.fromEntries([
+      ["label", String(year)],
+      ...topStates.map((state) => {
+        const members = companies.filter((company) => company.headquarters.endsWith(state));
+        return [
+          state.toLowerCase().replace(/[^a-z]+/g, "-"),
+          average(
+            members.map(
+              (company) => company.historicalScores.find((point) => point.year === year)?.score,
+            ),
+          ),
+        ];
+      }),
+    ]),
+  );
   return (
     <section className="page-shell">
       <SectionTitle
@@ -60,28 +120,26 @@ export default function DashboardPage() {
         />
         <Metric
           label="Average score"
-          value={(
-            companies.reduce((sum, company) => sum + company.score, 0) / companies.length
-          ).toFixed(1)}
+          value={formatIndustryNumber(average(companies.map((company) => company.score)))}
           detail="Across the index"
         />
         <Metric
-          label="Most improved"
-          value={fastestImproving[0].name}
-          detail={`+${fastestImproving[0].change} points`}
+          label="Score movement"
+          value="Pending"
+          detail="Second validated snapshot required"
         />
         <Metric label="Industries" value={industries.length.toString()} detail="Active coverage" />
       </div>
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <Chart>
           <InteractiveBubbleChart
-            title="Performance and momentum"
-            description="Score, improvement, and revenue scale by company."
+            title="Performance and company scale"
+            description="Published score, revenue, and employee scale by company."
             data={companies.map((company) => ({
               name: company.name,
               x: company.score,
-              y: company.change,
-              size: company.revenueBillions,
+              y: company.revenueBillions,
+              size: company.employees,
             }))}
           />
         </Chart>
@@ -107,40 +165,63 @@ export default function DashboardPage() {
           />
         </Chart>
         <Chart>
-          <InteractiveBarChart title="State rankings" description="Average CSR score by headquarters state in the published sample." data={stateData} series={[{ key: "score", label: "Average score" }]} />
+          <InteractiveBarChart
+            title="State rankings"
+            description="Average CSR score by headquarters state in the published sample."
+            data={stateData}
+            series={[{ key: "score", label: "Average score" }]}
+          />
         </Chart>
         <Chart>
-          <InteractivePieChart title="Fortune ranking distribution" description="Published companies grouped by historical Fortune rank; unranked companies are excluded." data={fortuneDistribution} />
+          <InteractivePieChart
+            title="Fortune ranking distribution"
+            description="Published companies grouped by historical Fortune rank; unranked companies are excluded."
+            data={fortuneDistribution}
+          />
         </Chart>
         <Chart>
-          <InteractivePieChart title="CSR score distribution" description="Published companies grouped by current overall score." data={scoreDistribution} />
+          <InteractivePieChart
+            title="CSR score distribution"
+            description="Published companies grouped by current overall score."
+            data={scoreDistribution}
+          />
         </Chart>
         <Chart>
-          <InteractiveBarChart title="Fastest improving companies" description="Latest research-cycle score movement." data={fastestImproving.map((company) => ({ label: company.ticker, change: company.change }))} series={[{ key: "change", label: "Change" }]} domain={[0, 5]} />
+          <p className="text-xs uppercase tracking-wider text-cyan">Movement analysis</p>
+          <h2 className="mt-4 text-2xl font-semibold">Awaiting a comparable snapshot</h2>
+          <p className="mt-4 leading-7 text-slate-400">
+            Rank and score movement will be calculated after the September–October cycle passes its
+            evidence and integrity gates. Generated historical sequences are excluded.
+          </p>
         </Chart>
         <Chart className="lg:col-span-2">
-          <InteractiveLineChart title="Industry trends" description="Average historical score by published industry cohort." data={industryTrends} series={industryTrendSeries} />
+          <InteractiveLineChart
+            title="Industry trends"
+            description="Average historical score by published industry cohort."
+            data={industryTrends}
+            series={industryTrendSeries}
+          />
         </Chart>
         <Chart className="lg:col-span-2">
-          <InteractiveLineChart title="Regional trends" description="Average historical score by headquarters state in the published sample." data={regionalTrends} series={regionalSeries} />
+          <InteractiveLineChart
+            title="Regional trends"
+            description="Average historical score by headquarters state in the published sample."
+            data={regionalTrends}
+            series={regionalSeries}
+          />
         </Chart>
         <Chart>
           <InteractiveLineChart
             area
             title="Overall score trend"
             description="Average published score across research cycles."
-            data={[2021, 2022, 2023, 2024, 2025, 2026].map((year) => ({
+            data={[2026].map((year) => ({
               label: String(year),
-              score: Number(
-                (
-                  companies.reduce(
-                    (sum, company) =>
-                      sum +
-                      (company.historicalScores.find((point) => point.year === year)?.score ?? 0),
-                    0,
-                  ) / companies.length
-                ).toFixed(1),
-              ),
+              score: average(
+                companies.map(
+                  (company) => company.historicalScores.find((point) => point.year === year)?.score,
+                ),
+              )!,
             }))}
             series={[{ key: "score", label: "Index average" }]}
           />
@@ -167,7 +248,12 @@ export default function DashboardPage() {
         <Ranking title="Top performers" companies={ranked.slice(0, 4)} />
         <Ranking title="Bottom performers" companies={[...ranked].reverse().slice(0, 4)} />
       </div>
-      <p className="mt-8 text-xs leading-6 text-zinc-500">Scope note: dashboards reflect {companies.length} published profiles, including 200 Fortune-ranked records. Expanded records use 2017 historical Fortune structural data and modeled Impact500 CSR values pending source-level analyst review; private or unranked companies are excluded from rank distributions.</p>
+      <p className="mt-8 text-xs leading-6 text-zinc-500">
+        Scope note: dashboards reflect {companies.length} Fortune 500 profiles in the published 2026
+        baseline. The September–October cycle is updating; movement is withheld until a second
+        source-reviewed snapshot passes validation. Existing modeled pillar values remain clearly
+        provisional pending source-level analyst review.
+      </p>
     </section>
   );
 }
@@ -195,7 +281,16 @@ function Ranking({ title, companies: list }: { title: string; companies: typeof 
             className="focus-ring flex items-center gap-4 rounded-lg px-2 py-4 hover:bg-white/[.035] hover:text-cyan"
           >
             <span className="text-xs text-zinc-600">0{index + 1}</span>
-            <strong className="flex-1">{company.name}</strong>
+            <CompanyLogo
+              name={company.name}
+              website={company.website}
+              logo={company.logo}
+              size="sm"
+            />
+            <span className="min-w-0 flex-1">
+              <strong className="block truncate">{company.name}</strong>
+              <small className="block truncate text-zinc-500">CEO {company.executive?.name}</small>
+            </span>
             <span>{company.score.toFixed(1)}</span>
           </Link>
         ))}

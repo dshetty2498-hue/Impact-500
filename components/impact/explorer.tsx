@@ -64,10 +64,13 @@ export function Explorer() {
               key={company.slug}
               className="focus-ring flex items-center justify-between rounded-xl border border-white/10 p-4 hover:bg-white/5"
             >
-              <span>
+              <span className="min-w-0">
                 <small className="mr-3 text-zinc-500">0{index + 1}</small>
                 <strong>{company.name}</strong>
                 <small className="ml-2 text-zinc-500">{company.industry}</small>
+                <small className="mt-1 block truncate text-zinc-500">
+                  CEO {company.executive?.name} · Founded {company.founded ?? "unavailable"}
+                </small>
               </span>
               <Score score={company.match} grade={company.grade} />
             </Link>

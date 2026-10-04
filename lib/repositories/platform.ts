@@ -18,9 +18,19 @@ export type CompanyQuery = {
   minRevenue?: number;
   maxRevenue?: number;
   minEmployees?: number;
+  minFounded?: number;
+  maxFounded?: number;
   headquarters?: string;
   researchAvailable?: boolean;
-  sort?: "score-desc" | "score-asc" | "alphabetical" | "newest" | "improved" | "fortune";
+  sort?:
+    | "score-desc"
+    | "score-asc"
+    | "alphabetical"
+    | "newest"
+    | "improved"
+    | "fortune"
+    | "founded-oldest"
+    | "founded-newest";
 };
 
 const normalize = (value: string) => value.trim().toLowerCase();
@@ -29,7 +39,13 @@ export function queryCompanies(filters: CompanyQuery = {}): Company[] {
   const query = normalize(filters.query ?? "");
   const rows = companyRecords.filter((company) => {
     const haystack =
-      `${company.name} ${company.ticker} ${company.industry} ${company.headquarters} ${company.grade} ${Object.entries(company.pillars).map(([pillar, score]) => `${pillar} ${score}`).join(" ")} ${company.fortuneRank ? `fortune ${company.fortuneRank}` : "not ranked private"}`.toLowerCase();
+      `${company.name} ${company.ticker} ${company.executive?.name ?? ""} ${company.executive?.title ?? ""} ${company.industry} ${company.headquarters} ${company.grade} ${Object.entries(
+        company.pillars,
+      )
+        .map(([pillar, score]) => `${pillar} ${score}`)
+        .join(
+          " ",
+        )} ${company.founded ? `founded ${company.founded}` : "founding date unavailable"} ${company.fortuneRank ? `fortune ${company.fortuneRank}` : "not ranked private"}`.toLowerCase();
     return (
       (!query || haystack.includes(query)) &&
       (!filters.industry || company.industrySlug === filters.industry) &&
@@ -39,6 +55,10 @@ export function queryCompanies(filters: CompanyQuery = {}): Company[] {
       (filters.minRevenue === undefined || company.revenueBillions >= filters.minRevenue) &&
       (filters.maxRevenue === undefined || company.revenueBillions <= filters.maxRevenue) &&
       (filters.minEmployees === undefined || company.employees >= filters.minEmployees) &&
+      (filters.minFounded === undefined ||
+        (company.founded !== null && company.founded >= filters.minFounded)) &&
+      (filters.maxFounded === undefined ||
+        (company.founded !== null && company.founded <= filters.maxFounded)) &&
       (!filters.headquarters ||
         normalize(company.headquarters).includes(normalize(filters.headquarters))) &&
       (!filters.researchAvailable || company.sources.length > 0)
@@ -56,6 +76,10 @@ export function queryCompanies(filters: CompanyQuery = {}): Company[] {
         return b.change - a.change;
       case "fortune":
         return (a.fortuneRank ?? 9999) - (b.fortuneRank ?? 9999);
+      case "founded-oldest":
+        return (a.founded ?? 9999) - (b.founded ?? 9999);
+      case "founded-newest":
+        return (b.founded ?? 0) - (a.founded ?? 0);
       default:
         return b.score - a.score;
     }

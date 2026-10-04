@@ -29,8 +29,6 @@ for row in rows:
         continue
     seen.add(key)
     selected.append(row)
-    if len(selected) == 194:
-        break
 
 sectors = sorted({row["Sector"].strip() or "Diversified" for row in selected})
 lines = [
@@ -49,7 +47,7 @@ for row in selected:
 lines.extend([
     "];", "",
     'const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");',
-    "const gradeFor = (score: number) => score >= 90 ? \"A+\" : score >= 85 ? \"A\" : score >= 80 ? \"B+\" : score >= 75 ? \"B\" : score >= 70 ? \"C+\" : \"C\";",
+    "const gradeFor = (score: number) => score >= 90 ? \"A\" : score >= 80 ? \"B\" : score >= 70 ? \"C\" : score >= 60 ? \"D\" : \"F\";",
     "",
     "export const supplementalCompanies: Company[] = seeds.map(([rank, name, ticker, industry, headquarters, employees, revenueBillions, website], index) => {",
     "  const slug = slugify(name);",

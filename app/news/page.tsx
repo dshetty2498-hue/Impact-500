@@ -19,7 +19,12 @@ export default function NewsPage() {
       />
       <div className="mt-12 grid gap-5 lg:grid-cols-2">
         {featured.map((item) => (
-          <article key={item.slug} id={item.slug} className="premium-card">
+          <Link
+            href={`/news/${item.slug}`}
+            key={item.slug}
+            id={item.slug}
+            className="premium-card block"
+          >
             <p className="text-xs uppercase tracking-wider text-cyan">Featured · {item.category}</p>
             <h2 className="display mt-6 text-3xl">{item.headline}</h2>
             <p className="mt-4 leading-7 text-zinc-400">{item.summary}</p>
@@ -32,7 +37,7 @@ export default function NewsPage() {
                 timeZone: "UTC",
               })}
             </p>
-          </article>
+          </Link>
         ))}
       </div>
       <div className="mt-12">
@@ -40,7 +45,7 @@ export default function NewsPage() {
         <div className="mt-5 divide-y overflow-hidden rounded-2xl border bg-panel">
           {news.map((item) => (
             <Link
-              href={`#${item.slug}`}
+              href={`/news/${item.slug}`}
               key={item.slug}
               className="grid gap-3 p-6 hover:bg-white/[.03] md:grid-cols-[10rem_1fr_auto] md:items-center"
             >

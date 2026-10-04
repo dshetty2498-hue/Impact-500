@@ -12,6 +12,8 @@ export function GET(request: Request) {
     minRevenue: finiteNumber(params.get("minRevenue")),
     maxRevenue: finiteNumber(params.get("maxRevenue")),
     minEmployees: finiteNumber(params.get("minEmployees")),
+    minFounded: finiteNumber(params.get("minFounded")),
+    maxFounded: finiteNumber(params.get("maxFounded")),
     headquarters: params.get("headquarters") ?? undefined,
     researchAvailable: params.get("research") === "true",
     sort: (params.get("sort") as CompanyQuery["sort"]) ?? undefined,

@@ -12,11 +12,13 @@ import {
   researcherRecords,
 } from "@/data/platform";
 import type { Company } from "@/lib/domain/types";
+import { publicationRecords } from "@/lib/publications";
 
 export type { Company } from "@/lib/domain/types";
 export const companies = companyRecords;
 export const industries = industryRecords;
 export const research = researchRecords;
+export const publications = publicationRecords;
 export const reports = reportRecords;
 export const news = newsRecords;
 export const team = researcherRecords;
@@ -39,14 +41,18 @@ export const companyDetails: Record<
 );
 
 export const navItems = [
-  ["Leaderboard", "/leaderboard"],
-  ["Compare", "/compare"],
-  ["Map", "/map"],
   ["Industries", "/industries"],
-  ["Dashboard", "/dashboard"],
-  ["Research", "/research"],
-  ["News", "/news"],
-  ["Annual Report", "/annual-report"],
+  ["Industry Intelligence", "/industry-intelligence"],
+  ["Sustainable Investing", "/sustainable-investing"],
+  ["Research Library", "/research"],
+  ["Publications", "/publications"],
+  ["Data Explorer", "/explorer"],
+  ["Insights", "/insights"],
+  ["News & Analysis", "/news"],
+  ["Trends", "/trends"],
+  ["Interactive Maps", "/map"],
+  ["Statistics Center", "/statistics"],
   ["Methodology", "/methodology"],
   ["About", "/about"],
+  ["Contact", "/contact"],
 ] as const;

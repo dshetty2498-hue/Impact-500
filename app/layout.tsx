@@ -2,31 +2,42 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Footer } from "@/components/site/footer";
 import { Navbar } from "@/components/site/navbar";
-import { siteUrl } from "@/lib/metadata";
+import { serializeJsonLd, siteUrl } from "@/lib/metadata";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { AccessibilityControls } from "@/components/site/accessibility-controls";
+import { PageTools } from "@/components/site/page-tools";
+import { Analytics } from "@vercel/analytics/next";
+import { ResearchCycleNotice } from "@/components/site/research-cycle-notice";
+import { currentResearchCycle, previousResearchCycle } from "@/data/research-cycles";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Impact500 | Corporate responsibility intelligence",
-    template: "%s | Impact500",
+    default: "Impact Horizon | Corporate responsibility research",
+    template: "%s | Impact Horizon",
   },
   description:
     "Independent intelligence on corporate social responsibility across America's most influential companies.",
-  applicationName: "Impact500",
-  authors: [{ name: "Impact500 Institute" }],
-  creator: "Impact500 Institute",
-  publisher: "Impact500 Institute",
+  applicationName: "Impact Horizon",
+  authors: [{ name: "Impact Horizon Research Institute" }],
+  creator: "Impact Horizon Research Institute",
+  publisher: "Impact Horizon Research Institute",
   category: "Corporate responsibility research",
+  verification: {
+    google: "aK7LOkY3Vb2a2icJ8ObnEm_fQwj6rzhHrmfc9OcucHQ",
+  },
   alternates: { canonical: siteUrl },
   manifest: "/manifest.webmanifest",
-  openGraph: { type: "website", siteName: "Impact500", images: [{ url: "/opengraph-image" }] },
+  openGraph: {
+    type: "website",
+    siteName: "Impact Horizon",
+    images: [{ url: "/opengraph-image" }],
+  },
   twitter: { card: "summary_large_image" },
 };
 export const viewport: Viewport = {
   colorScheme: "dark",
-  themeColor: "#07111F",
+  themeColor: "#0B1118",
   width: "device-width",
   initialScale: 1,
 };
@@ -34,10 +45,24 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Impact500",
-    url: siteUrl,
-    description: "Independent intelligence on corporate responsibility.",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${siteUrl}/#organization`,
+        name: "Impact Horizon Research Institute",
+        alternateName: "Impact Horizon",
+        url: siteUrl,
+        description: "Independent intelligence on corporate responsibility.",
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        name: "Impact Horizon",
+        url: siteUrl,
+        publisher: { "@id": `${siteUrl}/#organization` },
+        inLanguage: "en-US",
+      },
+    ],
   };
   return (
     <html lang="en">
@@ -45,7 +70,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <AuthShell publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
           <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+            dangerouslySetInnerHTML={{ __html: serializeJsonLd(structuredData) }}
           />
           <a
             href="#content"
@@ -54,11 +79,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             Skip to content
           </a>
           <Navbar />
+          <ResearchCycleNotice
+            cycle={currentResearchCycle}
+            previousCycle={previousResearchCycle}
+          />
+          <PageTools />
           <main id="content" className="min-h-screen">
             {children}
           </main>
           <Footer />
           <AccessibilityControls />
+          <Analytics />
         </AuthShell>
       </body>
     </html>

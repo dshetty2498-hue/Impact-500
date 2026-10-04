@@ -1,139 +1,421 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  BarChart3,
-  BookOpen,
-  Building2,
-  Download,
-  Map,
-  Scale,
-  Search,
-  SlidersHorizontal,
-  TrendingUp,
-} from "lucide-react";
-import { MetricCounter } from "@/components/impact/home-sections";
-import { SectionTitle } from "@/components/ui/primitives";
-import { Reveal } from "@/components/ui/reveal";
-import { companies, reports, research } from "@/lib/data";
+import { ArrowRight, Download, Search } from "lucide-react";
+import { CompanyLogo } from "@/components/impact/company-logo";
+import { GradeBadge } from "@/components/ui/primitives";
+import { companies, reports, research, team } from "@/lib/data";
 import { pageMetadata } from "@/lib/metadata";
+import { calculateAllIndustryStats, formatIndustryNumber } from "@/lib/industry-data";
+import { currentResearchCycle } from "@/data/research-cycles";
+import { rankCompanies } from "@/lib/scoring";
 
 export const metadata = pageMetadata(
-  "Impact500 | Corporate responsibility intelligence",
-  "Independent intelligence on corporate social responsibility across America's largest companies.",
+  "Impact Horizon | Corporate responsibility research",
+  "Transparent corporate responsibility research across America's largest companies and industries.",
   "/",
 );
 
-const tools = [
-  [BarChart3, "CSR Explorer", "Explore normalized performance across four responsibility pillars.", "/explorer"],
-  [SlidersHorizontal, "Custom Ranking Builder", "Create a ranking shaped by the issues that matter to you.", "/explorer#ranking-builder"],
-  [Scale, "Company Comparison", "Compare company scores, trends, evidence, and priorities side by side.", "/compare"],
-  [Map, "Interactive US Map", "Discover corporate responsibility performance by region and headquarters.", "/map"],
+const primaryResearch = [
+  [
+    "Full company directory",
+    "/leaderboard#company-directory",
+    "Search and filter 500+ company research profiles",
+  ],
+  ["Impact500 ranking", "/leaderboard", "Compare scores, grades, and change"],
+  ["Industry research", "/industries", "Understand sector performance and risk"],
+  ["Research library", "/research", "Read analysis, briefs, and evidence reviews"],
+  ["Compare companies", "/compare", "Compare scores, pillars, and company evidence"],
+  ["U.S. headquarters map", "/map", "Explore companies by state, industry, and score"],
 ] as const;
 
 export default function HomePage() {
-  const latestReport = [...reports].sort((a, b) => b.year - a.year)[0];
-  const leaders = [...companies].sort((a, b) => b.score - a.score);
-  const improved = [...companies].sort((a, b) => b.change - a.change)[0];
-  const industryLeader = leaders.find((company) => company.industry === leaders[0]?.industry) ?? leaders[0];
+  const ranked = rankCompanies(companies).map(({ company }) => company);
+  const industryGroups = calculateAllIndustryStats(companies)
+    .sort((a, b) => b.companyCount - a.companyCount)
+    .slice(0, 5);
+  const latestReport = [...reports].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))[0];
 
   return (
     <>
-      <section className="lovable-hero relative overflow-hidden border-b">
-        <div className="relative mx-auto max-w-[100rem] px-5 pb-16 pt-24 sm:px-8 lg:min-h-[760px] lg:pb-20 lg:pt-28 xl:px-10">
-          <Reveal>
-            <div className="max-w-[74rem]">
-              <p className="text-xs font-semibold uppercase tracking-[.38em] text-emerald-400 sm:text-sm">2026 research edition · {companies.length} company profiles · 6 research cycles</p>
-              <h1 className="display mt-7 max-w-[75rem] text-5xl leading-[.98] text-slate-50 sm:text-7xl lg:text-[5.4rem]">
-                Understanding Corporate Responsibility<br className="hidden lg:block" /> Across America&apos;s Largest Companies.
-              </h1>
-              <p className="mt-7 max-w-4xl text-lg leading-8 text-slate-400 md:text-[1.4rem] md:leading-[1.55]">
-                Impact500 evaluates leading American companies across environmental responsibility, financial responsibility, philanthropy, and ethics — using a transparent, research-based methodology.
-              </p>
-              <Link href="/search" className="focus-ring group mt-10 flex w-full max-w-4xl items-center rounded-2xl border border-sky-400/30 bg-slate-700/30 p-2.5 pl-6 text-left text-slate-400 shadow-inner shadow-black/20 hover:border-sky-400/60">
-                <Search className="mr-4 size-5 text-slate-500" /><span className="min-w-0 flex-1 truncate text-base sm:text-lg">Search any company, industry, ticker, or state…</span><span className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-sky-500 px-5 py-3.5 font-semibold text-white shadow-lg shadow-sky-500/20">Browse all <ArrowRight className="size-4" /></span>
-              </Link>
-              <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-500"><span className="mr-1 uppercase tracking-wider">Trending:</span>{["Patagonia", "Microsoft", "Apple", "Salesforce", "Walmart", "Nike"].map((name) => { const company = companies.find((item) => item.name === name); return company ? <Link key={name} href={`/companies/${company.slug}`} className="rounded-full border border-white/15 bg-white/[.035] px-3.5 py-1.5 hover:border-sky-400/40 hover:text-white">{name}</Link> : null; })}</div>
-              <div className="mt-9 flex flex-wrap gap-3">
-                <Link href="/leaderboard" className="lovable-primary"><BarChart3 className="size-4 text-sky-500" />Full Leaderboard</Link>
-                <Link href="/explorer" className="lovable-secondary">CSR Explorer</Link>
-                <Link href="/explorer#ranking-builder" className="lovable-secondary"><SlidersHorizontal className="size-4 text-emerald-400" />Build Your Own Ranking</Link>
-                <Link href="/compare" className="lovable-secondary"><Scale className="size-4" />Compare</Link>
-              </div>
-            </div>
-          </Reveal>
-          <div className="mt-16 grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <MetricCounter value={companies.length} label="Published profiles" />
-            <MetricCounter value={companies.length * 4} suffix="+" label="Modeled CSR indicators" />
-            <MetricCounter value={6} label="Research cycles" />
-            <MetricCounter value={new Set(companies.map((company) => company.industry)).size} label="Industries represented" />
+      <section className="border-b bg-[#0d151e]">
+        <div className="mx-auto grid max-w-[88rem] gap-12 px-5 py-16 sm:px-8 md:py-24 lg:grid-cols-[1.35fr_.65fr] lg:items-end xl:px-10">
+          <div>
+            <p className="editorial-kicker">Independent research institute · 2026 index</p>
+            <Link
+              href="/research-cycles"
+              className="mt-4 inline-flex border-l-2 border-cyan pl-3 text-xs font-semibold uppercase tracking-[.14em] text-cyan"
+            >
+              Latest Research Cycle: {currentResearchCycle.dateLabel} ·{" "}
+              {currentResearchCycle.status === "complete" ? "Complete" : "Updating"}
+            </Link>
+            <h1 className="display mt-6 max-w-5xl text-5xl leading-[.98] sm:text-6xl lg:text-[5.25rem]">
+              Impact Horizon
+            </h1>
+            <p className="display mt-4 max-w-4xl text-3xl leading-tight text-slate-300 sm:text-4xl">
+              Corporate responsibility research, made transparent.
+            </p>
+            <p className="mt-7 max-w-3xl text-lg leading-8 text-slate-400">
+              We turn public disclosures, filings, and reported outcomes into comparable research on
+              America&apos;s largest companies—so readers can see the evidence behind every finding.
+            </p>
           </div>
+          <dl className="grid grid-cols-2 border-y lg:grid-cols-1">
+            <Stat value={companies.length.toLocaleString()} label="Company profiles" />
+            <Stat
+              value={String(new Set(companies.map((company) => company.industry)).size)}
+              label="Industries"
+            />
+            <Stat value="2" label="Versioned research cycles" />
+            <Stat value="4" label="Responsibility pillars" />
+          </dl>
         </div>
       </section>
 
-      <section className="section-shell">
-        <SectionTitle eyebrow="Featured research" title={<>The signals shaping <em className="text-cyan">responsible business.</em></>} text="A concise view of leaders, momentum, sector performance, and current research." />
-        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
-          <InsightCard eyebrow="Top CSR leader" title={leaders[0].name} metric={leaders[0].score.toFixed(1)} href={`/companies/${leaders[0].slug}`} icon={Building2} />
-          <InsightCard eyebrow="Most improved" title={improved.name} metric={`+${improved.change}%`} href={`/companies/${improved.slug}`} icon={TrendingUp} />
-          <InsightCard eyebrow="Industry leader" title={industryLeader.industry} metric={industryLeader.name} href={`/industries/${industryLeader.industrySlug}`} icon={BarChart3} />
-          <InsightCard eyebrow="Trending research" title={research[0].title} metric={research[0].read} href={`/research/${research[0].slug}`} icon={BookOpen} />
-          <InsightCard eyebrow="Annual report" title={latestReport.title} metric={`${latestReport.year} edition`} href="/annual-report" icon={BookOpen} />
-        </div>
-      </section>
-
-      <section className="border-y bg-panel/35">
-        <div className="section-shell">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end"><SectionTitle eyebrow="Top CSR companies" title={<>Leadership across the <em className="text-cyan">expanded index.</em></>} text={`A preview of the highest modeled scores across ${companies.length} published profiles.`} /><Link href="/leaderboard" className="link-arrow">View complete leaderboard <ArrowRight className="size-4" /></Link></div>
-          <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {leaders.slice(0, 6).map((company, index) => <Link key={company.slug} href={`/companies/${company.slug}`} className="premium-card group flex items-center gap-5"><span className="display text-3xl text-zinc-500">{String(index + 1).padStart(2, "0")}</span><span className="min-w-0 flex-1"><strong className="block truncate text-xl group-hover:text-cyan">{company.name}</strong><small className="mt-1 block text-zinc-500">{company.industry} · {company.ticker}</small></span><span className="text-right"><strong className="text-2xl text-cyan">{company.score.toFixed(1)}</strong><small className="block text-zinc-500">{company.grade}</small></span></Link>)}
-          </div>
-          <p className="mt-5 text-xs leading-6 text-zinc-500">Expanded-company CSR scores are modeled demonstration values pending source-level analyst verification.</p>
-        </div>
-      </section>
-
-      <section>
-        <div className="section-shell">
-          <SectionTitle eyebrow="Interactive tools" title={<>Research that works <em className="text-cyan">the way you do.</em></>} text="Move from a broad market view to a decision-ready comparison in a few steps." />
-          <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {tools.map(([Icon, title, text, href]) => (
-              <Link key={title} href={href} className="premium-card group min-h-72">
-                <span className="grid size-12 place-items-center rounded-2xl border border-accent/30 bg-accent/10 text-cyan"><Icon className="size-6" /></span>
-                <h3 className="mt-10 text-2xl font-semibold tracking-tight">{title}</h3>
-                <p className="mt-4 leading-7 text-slate-400">{text}</p>
-                <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-cyan">Open tool <ArrowRight className="size-4 transition group-hover:translate-x-1" /></span>
+      <section className="border-b">
+        <div className="mx-auto max-w-[88rem] px-5 py-10 sm:px-8 xl:px-10">
+          <Link
+            href="/search"
+            className="focus-ring group flex min-h-20 items-center border-b-2 border-white/30 text-left hover:border-cyan"
+          >
+            <Search className="mr-5 size-6 shrink-0 text-cyan" />
+            <span className="min-w-0 flex-1 text-lg text-slate-300 sm:text-2xl">
+              Search a company, industry, executive, topic, or report
+            </span>
+            <span className="hidden text-sm font-semibold text-cyan sm:inline">
+              Search database
+            </span>
+          </Link>
+          <nav
+            className="grid border-b md:grid-cols-2 xl:grid-cols-4"
+            aria-label="Primary research"
+          >
+            {primaryResearch.map(([label, href, description], index) => (
+              <Link
+                key={href}
+                href={href}
+                className="group border-b px-0 py-6 md:border-r md:px-5 md:first:pl-0 xl:border-b-0"
+              >
+                <span className="text-[.68rem] tabular-nums text-slate-600">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <strong className="mt-2 block text-base font-semibold group-hover:text-cyan">
+                  {label}
+                </strong>
+                <span className="mt-2 block text-sm leading-6 text-slate-500">{description}</span>
               </Link>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell pt-0">
-        <div className="grid-bg relative overflow-hidden rounded-[2rem] border bg-gradient-to-br from-accent/20 via-elevated to-panel p-8 shadow-2xl shadow-accent/10 md:p-14 lg:grid lg:grid-cols-[1fr_.65fr] lg:items-center lg:gap-12">
-          <div><p className="text-xs uppercase tracking-[.2em] text-cyan">Featured annual report · {latestReport.year}</p><h2 className="display mt-5 text-4xl md:text-6xl">A definitive account of corporate responsibility.</h2><p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{latestReport.summary}</p><div className="mt-8 flex flex-wrap gap-3"><Link href="/annual-report" className="button-primary"><BookOpen className="size-4" />Read the report</Link><a href={latestReport.pdf} download className="button-secondary"><Download className="size-4" />Download PDF</a></div></div>
-          <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl border shadow-2xl lg:mt-0"><Image src={latestReport.cover} fill sizes="(max-width:1024px) 100vw, 40vw" className="object-cover" alt={`${latestReport.title} cover`} /><div className="absolute inset-0 bg-gradient-to-t from-ink/50 to-transparent" /></div>
+          </nav>
         </div>
       </section>
 
       <section className="section-shell">
-        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end"><SectionTitle eyebrow="Latest research" title={<>Independent analysis with <em className="text-cyan">consequence.</em></>} text="Long-form research, industry analysis, and case studies grounded in cited evidence." /><Link href="/research" className="link-arrow">View all research <ArrowRight className="size-4" /></Link></div>
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {research.slice(0, 3).map((article, index) => (
-            <Link href={`/research/${article.slug}`} key={article.slug} className="focus-ring group overflow-hidden rounded-[1.75rem] border bg-panel shadow-2xl shadow-black/15 transition duration-300 hover:-translate-y-1 hover:border-cyan/30">
-              <div className="relative aspect-[16/10] overflow-hidden"><Image src={article.cover} fill priority={index === 0} sizes="(max-width:1024px) 100vw, 33vw" style={{ objectPosition: article.coverPosition }} className="object-cover transition duration-700 group-hover:scale-105" alt="" /><div className="absolute inset-0 bg-gradient-to-t from-panel via-transparent to-transparent" /></div>
-              <div className="p-7"><p className="text-xs uppercase tracking-[.18em] text-cyan">{article.category} · {article.date}</p><h3 className="mt-5 text-2xl font-semibold leading-snug transition group-hover:text-cyan">{article.title}</h3><p className="mt-4 line-clamp-3 leading-7 text-slate-400">{article.excerpt}</p><span className="mt-7 block text-sm text-slate-500">{article.read} read · {article.author}</span></div>
+        <SectionHeader
+          number="01"
+          kicker="Current findings"
+          title="What the latest research shows"
+          description="A concise reading of the current index. Findings are directional and should be interpreted alongside source quality and methodology notes."
+          href="/insights"
+          linkLabel="Read all insights"
+        />
+        <div className="mt-12 divide-y border-y">
+          <Finding
+            number="01"
+            title={`${ranked[0].name} leads the published index`}
+            text={`Its modeled score of ${ranked[0].score.toFixed(1)} is the strongest in the current research universe, with performance evaluated across four responsibility pillars.`}
+            href={`/companies/${ranked[0].slug}`}
+          />
+          <Finding
+            number="02"
+            title={`${currentResearchCycle.dateLabel} review is underway`}
+            text="Score and rank movement will remain unavailable until two validated, versioned publication snapshots exist. Synthetic historical movement is not used."
+            href="/research-cycles"
+          />
+          <Finding
+            number="03"
+            title="Disclosure quality remains uneven"
+            text="The index distinguishes missing evidence from negative evidence and makes verification status visible rather than rewarding disclosure volume alone."
+            href="/methodology"
+          />
+        </div>
+      </section>
+
+      <section className="border-y bg-[#0d151e]">
+        <div className="section-shell">
+          <SectionHeader
+            number="02"
+            kicker="Impact500 ranking"
+            title="Leading companies"
+            description="A scannable view of the highest published scores. Open a company profile for the full evidence record, history, and limitations."
+            href="/leaderboard"
+            linkLabel="View full leaderboard"
+          />
+          <div className="mt-10 overflow-x-auto border-t">
+            <table className="w-full min-w-[46rem] text-left">
+              <thead className="border-b text-[.68rem] uppercase tracking-[.14em] text-slate-500">
+                <tr>
+                  <th className="py-4 pr-4 font-semibold">Rank</th>
+                  <th className="py-4 pr-4 font-semibold">Company</th>
+                  <th className="py-4 pr-4 font-semibold">CEO</th>
+                  <th className="py-4 pr-4 font-semibold">Industry</th>
+                  <th className="py-4 pr-4 font-semibold">Headquarters</th>
+                  <th className="py-4 pr-4 text-right font-semibold">Score</th>
+                  <th className="py-4 text-right font-semibold">Grade</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                {ranked.slice(0, 6).map((company, index) => (
+                  <tr key={company.slug} className="group hover:bg-white/[.025]">
+                    <td className="py-4 pr-4 text-sm tabular-nums text-slate-500">
+                      {String(index + 1).padStart(2, "0")}
+                    </td>
+                    <td className="py-4 pr-4">
+                      <Link
+                        href={`/companies/${company.slug}`}
+                        className="flex items-center gap-3 font-semibold group-hover:text-cyan"
+                      >
+                        <CompanyLogo
+                          name={company.name}
+                          website={company.website}
+                          logo={company.logo}
+                        />
+                        {company.name}
+                      </Link>
+                    </td>
+                    <td className="py-4 pr-4 text-sm text-slate-300">{company.executive?.name}</td>
+                    <td className="py-4 pr-4 text-sm text-slate-400">
+                      <Link
+                        href={`/industries/${company.industrySlug}`}
+                        className="hover:text-cyan hover:underline"
+                      >
+                        {company.industry}
+                      </Link>
+                    </td>
+                    <td className="py-4 pr-4 text-sm text-slate-400">{company.headquarters}</td>
+                    <td className="py-4 pr-4 text-right text-lg font-semibold tabular-nums">
+                      {company.score.toFixed(1)}
+                    </td>
+                    <td className="py-4 text-right">
+                      <GradeBadge score={company.score} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell">
+        <SectionHeader
+          number="03"
+          kicker="Sector intelligence"
+          title="Industry signals"
+          description="Sector context matters. These summaries show cohort size, average performance, and the current leader without collapsing different operating realities into one story."
+          href="/industries"
+          linkLabel="Explore industries"
+        />
+        <div className="mt-10 divide-y border-y">
+          {industryGroups.map((group) => (
+            <Link
+              key={group.slug}
+              href={`/industries/${group.slug}`}
+              className="grid gap-3 py-5 hover:bg-white/[.02] sm:grid-cols-[1.5fr_.55fr_.55fr_1fr] sm:items-center"
+            >
+              <strong className="text-lg">{group.name}</strong>
+              <span className="text-sm text-slate-500">{group.companyCount} companies</span>
+              <span className="text-sm tabular-nums text-slate-300">
+                {formatIndustryNumber(group.averageScore)} average
+              </span>
+              <span className="text-sm text-slate-400 sm:text-right">
+                Leader:{" "}
+                <span className="text-slate-200">{group.leader?.name ?? "Data unavailable"}</span>
+              </span>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="border-y bg-panel/35"><div className="section-shell"><SectionTitle eyebrow="About Impact500" title={<>Built for broad access. <em className="text-cyan">Designed for serious inquiry.</em></>} text="Impact500 is a long-term research initiative making corporate responsibility evidence more comparable, transparent, and useful." /><div className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4"><MetricCounter value={companies.length} label="Company profiles" /><MetricCounter value={companies.length * 4} suffix="+" label="CSR indicators" /><MetricCounter value={6} label="Research cycles" /><MetricCounter value={new Set(companies.map((company) => company.industry)).size} label="Industries" /></div><Link href="/about" className="button-secondary mt-8">Learn about the institute <ArrowRight className="size-4" /></Link></div></section>
+      <section className="border-y bg-[#0d151e]">
+        <div className="section-shell">
+          <SectionHeader
+            number="04"
+            kicker="Latest research"
+            title="Analysis and evidence reviews"
+            description="Long-form research designed to be read, cited, and challenged."
+            href="/research"
+            linkLabel="Open research library"
+          />
+          <div className="mt-12 grid gap-8 lg:grid-cols-[1.35fr_.65fr]">
+            {research[0] && (
+              <Link
+                href={`/research/${research[0].slug}`}
+                className="group border-b pb-8 lg:border-b-0"
+              >
+                <div className="relative aspect-[16/8] overflow-hidden bg-panel">
+                  <Image
+                    src={research[0].cover}
+                    fill
+                    priority
+                    sizes="(max-width:1024px) 100vw, 65vw"
+                    style={{ objectPosition: research[0].coverPosition }}
+                    className="object-cover opacity-80 transition group-hover:opacity-100"
+                    alt={`Cover for ${research[0].title}`}
+                  />
+                </div>
+                <p className="editorial-kicker mt-6">
+                  {research[0].category} · {research[0].date}
+                </p>
+                <h3 className="display mt-3 max-w-4xl text-3xl leading-tight group-hover:text-cyan md:text-4xl">
+                  {research[0].title}
+                </h3>
+                <p className="mt-4 max-w-3xl leading-7 text-slate-400">{research[0].excerpt}</p>
+              </Link>
+            )}
+            <div className="divide-y border-y lg:border-t-0">
+              {research.slice(1, 4).map((article) => (
+                <Link
+                  href={`/research/${article.slug}`}
+                  key={article.slug}
+                  className="group block py-6 first:pt-0"
+                >
+                  <p className="text-[.68rem] uppercase tracking-wider text-cyan">
+                    {article.category} · {article.read}
+                  </p>
+                  <h3 className="mt-3 text-xl font-semibold leading-snug group-hover:text-cyan">
+                    {article.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-500">{article.excerpt}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <section className="section-shell"><div className="grid-bg rounded-[2rem] border bg-elevated/70 p-8 text-center md:p-14"><p className="text-xs uppercase tracking-[.2em] text-cyan">Join the research initiative</p><h2 className="display mx-auto mt-5 max-w-4xl text-4xl md:text-6xl">Help make corporate responsibility more transparent.</h2><p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300">Explore the evidence, understand the framework, and bring better questions to the institutions shaping public life.</p><div className="mt-8 flex flex-wrap justify-center gap-3"><Link href="/about" className="button-primary">About Impact500 <ArrowRight className="size-4" /></Link><Link href="/methodology" className="button-secondary">Learn about methodology</Link></div></div></section>
+      <section className="section-shell">
+        <div className="grid gap-10 border-y py-10 lg:grid-cols-[.72fr_1.28fr] lg:items-center">
+          <div className="relative aspect-[4/5] max-h-[34rem] overflow-hidden bg-panel">
+            <Image
+              src={latestReport.cover}
+              fill
+              sizes="(max-width:1024px) 100vw, 35vw"
+              className="object-cover"
+              alt={`${latestReport.title} cover`}
+            />
+          </div>
+          <div>
+            <p className="editorial-kicker">Annual report · {latestReport.year}</p>
+            <h2 className="display mt-5 text-4xl leading-tight md:text-5xl">
+              {latestReport.title}
+            </h2>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-400">
+              {latestReport.summary}
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href={latestReport.href} className="button-primary">
+                Read the report <ArrowRight className="size-4" />
+              </Link>
+              <a href={latestReport.pdf} download className="button-secondary">
+                Download PDF <Download className="size-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y bg-[#0d151e]">
+        <div className="section-shell grid gap-12 lg:grid-cols-2">
+          <div>
+            <p className="editorial-kicker">Methodology</p>
+            <h2 className="display mt-5 text-4xl leading-tight">
+              The score is only the beginning.
+            </h2>
+            <p className="mt-5 max-w-xl leading-8 text-slate-400">
+              Impact Horizon documents scope, evidence standards, weighting, validation, and
+              limitations. Readers can see where the model is strong—and where judgment remains.
+            </p>
+            <Link href="/methodology" className="link-arrow mt-7">
+              Review the methodology <ArrowRight className="size-4" />
+            </Link>
+          </div>
+          <div className="border-t pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
+            <p className="editorial-kicker">Research team</p>
+            <h2 className="display mt-5 text-4xl leading-tight">Research has authors.</h2>
+            <p className="mt-5 max-w-xl leading-8 text-slate-400">
+              Meet the {team.length}-person team responsible for evidence review, industry coverage,
+              methodology development, and publication standards.
+            </p>
+            <Link href="/team" className="link-arrow mt-7">
+              Meet the research team <ArrowRight className="size-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
 
-function InsightCard({ eyebrow, title, metric, href, icon: Icon }: { eyebrow: string; title: string; metric: string; href: string; icon: typeof Building2 }) {
-  return <Link href={href} className="premium-card group"><span className="flex items-center justify-between"><Icon className="size-5 text-cyan" /><ArrowRight className="size-4 text-slate-600 transition group-hover:translate-x-1 group-hover:text-cyan" /></span><p className="mt-8 text-xs uppercase tracking-[.16em] text-slate-500">{eyebrow}</p><h3 className="mt-3 text-xl font-semibold leading-snug group-hover:text-cyan">{title}</h3><strong className="mt-5 block text-lg text-cyan">{metric}</strong></Link>;
+function Stat({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="border-b px-0 py-4 last:border-b-0 lg:grid lg:grid-cols-[6rem_1fr] lg:items-baseline">
+      <dt className="display text-2xl text-white">{value}</dt>
+      <dd className="mt-1 text-xs uppercase tracking-wider text-slate-500 lg:mt-0">{label}</dd>
+    </div>
+  );
+}
+
+function SectionHeader({
+  number,
+  kicker,
+  title,
+  description,
+  href,
+  linkLabel,
+}: {
+  number: string;
+  kicker: string;
+  title: string;
+  description: string;
+  href: string;
+  linkLabel: string;
+}) {
+  return (
+    <header className="grid gap-5 border-t pt-6 lg:grid-cols-[5rem_1fr_1fr]">
+      <span className="text-xs tabular-nums text-slate-600">{number}</span>
+      <div>
+        <p className="editorial-kicker">{kicker}</p>
+        <h2 className="display mt-4 text-3xl leading-tight md:text-4xl">{title}</h2>
+      </div>
+      <div className="lg:pt-7">
+        <p className="max-w-xl leading-7 text-slate-400">{description}</p>
+        <Link href={href} className="link-arrow mt-5">
+          {linkLabel} <ArrowRight className="size-4" />
+        </Link>
+      </div>
+    </header>
+  );
+}
+
+function Finding({
+  number,
+  title,
+  text,
+  href,
+}: {
+  number: string;
+  title: string;
+  text: string;
+  href: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group grid gap-4 py-7 md:grid-cols-[5rem_.8fr_1.2fr_auto] md:items-start"
+    >
+      <span className="text-xs tabular-nums text-cyan">{number}</span>
+      <h3 className="text-xl font-semibold leading-snug group-hover:text-cyan">{title}</h3>
+      <p className="max-w-2xl leading-7 text-slate-400">{text}</p>
+      <ArrowRight className="mt-1 hidden size-4 text-slate-600 md:block" />
+    </Link>
+  );
 }

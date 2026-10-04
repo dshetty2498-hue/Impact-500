@@ -9,7 +9,11 @@ export default function Loading() {
         {[1, 2, 3].map((i) => (
           <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-panel" key={i}>
             <div className="h-36 bg-white/[.06]" />
-            <div className="space-y-3 p-6"><div className="h-4 w-24 rounded bg-white/10" /><div className="h-6 w-4/5 rounded bg-white/10" /><div className="h-4 w-full rounded bg-white/[.06]" /></div>
+            <div className="space-y-3 p-6">
+              <div className="h-4 w-24 rounded bg-white/10" />
+              <div className="h-6 w-4/5 rounded bg-white/10" />
+              <div className="h-4 w-full rounded bg-white/[.06]" />
+            </div>
           </div>
         ))}
       </div>

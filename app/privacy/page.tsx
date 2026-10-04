@@ -17,7 +17,7 @@ export default function Privacy() {
         <h2 className="text-xl font-semibold text-white">Information you provide</h2>
         <p>
           If you subscribe or contact us, we use your details only to fulfill that request. You may
-          request access or deletion by emailing privacy@impact500.org.
+          request access or deletion by emailing dshetty2498@gmail.com.
         </p>
         <h2 className="text-xl font-semibold text-white">Updates</h2>
         <p>

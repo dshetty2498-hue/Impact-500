@@ -5,6 +5,9 @@ import Link from "next/link";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Building2, ChevronLeft, ChevronRight } from "lucide-react";
 import { companies } from "@/lib/data";
+import { GradeBadge } from "@/components/ui/primitives";
+import { CompanyLogo } from "@/components/impact/company-logo";
+import { calculateAllIndustryStats, formatIndustryNumber } from "@/lib/industry-data";
 
 export function MetricCounter({
   value,
@@ -77,12 +80,16 @@ export function CompanySpotlight() {
       >
         <div>
           <div className="flex items-center gap-3">
-            <span className="grid size-12 place-items-center rounded-xl border bg-ink text-lg font-bold text-cyan">
-              {company.name.slice(0, 2).toUpperCase()}
-            </span>
+            <CompanyLogo
+              name={company.name}
+              website={company.website}
+              logo={company.logo}
+              size="lg"
+            />
             <div>
               <p className="text-xs uppercase tracking-[.18em] text-cyan">Company spotlight</p>
               <h3 className="mt-1 text-2xl font-semibold">{company.name}</h3>
+              <p className="mt-1 text-sm text-zinc-500">CEO: {company.executive?.name}</p>
             </div>
           </div>
           <p className="mt-7 max-w-xl text-lg leading-8 text-zinc-300">{company.summary}</p>
@@ -107,7 +114,7 @@ export function CompanySpotlight() {
           </div>
           <div className="rounded-2xl border bg-ink/70 p-5">
             <span className="text-xs text-zinc-500">CSR grade</span>
-            <strong className="display mt-3 block text-5xl text-white">{company.grade}</strong>
+            <GradeBadge score={company.score} className="mt-3 px-4 py-2 text-3xl" />
           </div>
           <div className="col-span-2 flex items-center justify-between rounded-2xl border bg-ink/70 p-5">
             <span className="text-sm text-zinc-400">Latest research-cycle momentum</span>
@@ -191,40 +198,38 @@ export function ResearchTimeline() {
 }
 
 export function IndustryCards() {
-  const groups = Array.from(new Set(companies.map((c) => c.industry))).map((industry) => {
-    const list = companies.filter((c) => c.industry === industry);
-    return {
-      industry,
-      average: list.reduce((sum, c) => sum + c.score, 0) / list.length,
-      top: [...list].sort((a, b) => b.score - a.score)[0],
-      count: list.length,
-    };
-  });
+  const groups = calculateAllIndustryStats(companies);
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {groups.map((group, index) => (
-        <motion.article key={group.industry} whileHover={{ y: -4 }} className="premium-card group">
-          <div className="flex items-center justify-between">
-            <span className="grid size-10 place-items-center rounded-xl bg-accent/10 text-cyan">
-              <Building2 className="size-5" />
-            </span>
-            <span className="text-xs text-emerald-400">↗ {(1.8 + index * 0.7).toFixed(1)}%</span>
-          </div>
-          <h3 className="mt-8 text-xl font-semibold">{group.industry}</h3>
-          <div className="mt-6 grid grid-cols-2 gap-4 border-t pt-5">
-            <div>
-              <span className="text-xs text-zinc-500">Average score</span>
-              <strong className="mt-1 block text-2xl text-cyan">{group.average.toFixed(1)}</strong>
+      {groups.map((group) => (
+        <motion.div key={group.slug} whileHover={{ y: -4 }}>
+          <Link href={`/industries/${group.slug}`} className="premium-card group block h-full">
+            <div className="flex items-center justify-between">
+              <span className="grid size-10 place-items-center rounded-xl bg-accent/10 text-cyan">
+                <Building2 className="size-5" />
+              </span>
+              <span className="text-xs text-cyan">View research ↗</span>
             </div>
-            <div>
-              <span className="text-xs text-zinc-500">Top company</span>
-              <strong className="mt-1 block truncate text-sm">{group.top.name}</strong>
+            <h3 className="mt-8 text-xl font-semibold group-hover:text-cyan">{group.name}</h3>
+            <div className="mt-6 grid grid-cols-2 gap-4 border-t pt-5">
+              <div>
+                <span className="text-xs text-zinc-500">Average score</span>
+                <strong className="mt-1 block text-2xl text-cyan">
+                  {formatIndustryNumber(group.averageScore)}
+                </strong>
+              </div>
+              <div>
+                <span className="text-xs text-zinc-500">Top company</span>
+                <strong className="mt-1 block truncate text-sm">
+                  {group.leader?.name ?? "Data unavailable"}
+                </strong>
+              </div>
             </div>
-          </div>
-          <p className="mt-4 text-xs text-zinc-500">
-            {group.count} published {group.count === 1 ? "profile" : "profiles"}
-          </p>
-        </motion.article>
+            <p className="mt-4 text-xs text-zinc-500">
+              {group.companyCount} published {group.companyCount === 1 ? "profile" : "profiles"}
+            </p>
+          </Link>
+        </motion.div>
       ))}
     </div>
   );

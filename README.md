@@ -97,6 +97,22 @@ pnpm start
 
 Security and cache response headers are configured in `next.config.ts`. Next.js generates the web manifest, sitemap, robots policy, favicon route, and Open Graph image. Preview deployments can use their preview URL for `NEXT_PUBLIC_SITE_URL`; production must use the public canonical origin.
 
+## Gmail delivery configuration
+
+Inquiry and newsletter notifications are sent only from server-side API routes. Configure these
+environment variables locally and in the deployment platform:
+
+- `GMAIL_USER`: the Gmail address that sends website notifications.
+- `GMAIL_APP_PASSWORD`: a Google App Password for that account (spaces are accepted and removed at
+  runtime). Two-step verification must be enabled before Google can issue an App Password.
+- `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`: required for duplicate-safe newsletter
+  subscriber persistence. The service-role key is server-only.
+
+The fixed destination is `dshetty2498@gmail.com`. Never place a Gmail password or service-role key
+in a `NEXT_PUBLIC_*` variable, source file, browser storage, or commit. Copy `.env.example` to
+`.env.local` for local development and enter secrets only in that ignored file. On Vercel, add the
+same variables under Project Settings → Environment Variables and redeploy.
+
 ### Database activation
 
 Apply `db/schema.sql` through the Supabase SQL editor or migration tooling. It defines the relational contract, indexes, score history, research sources, reports, users, saved items, watchlists, activity, comparisons, notification preferences, and RLS policies. Configure Clerk's Supabase JWT integration before enabling cross-device member persistence.

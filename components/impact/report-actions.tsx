@@ -15,20 +15,11 @@ export function ReportActions({ pdf, slug, title }: { pdf: string; slug: string;
         <Download className="size-4" />
         Download PDF
       </a>
-      <a
-        href={pdf}
-        target="_blank"
-        rel="noreferrer"
-        className="button-secondary"
-      >
+      <a href={pdf} target="_blank" rel="noreferrer" className="button-secondary">
         <ExternalLink className="size-4" />
         Open in tab
       </a>
-      <button
-        type="button"
-        onClick={() => window.print()}
-        className="button-secondary"
-      >
+      <button type="button" onClick={() => window.print()} className="button-secondary">
         <Printer className="size-4" />
         Print
       </button>

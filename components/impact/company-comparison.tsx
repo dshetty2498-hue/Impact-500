@@ -1,6 +1,7 @@
 "use client";
+import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Download, Plus, X } from "lucide-react";
+import { Check, Download, Plus, Search, X } from "lucide-react";
 import { companies } from "@/lib/data";
 import {
   InteractiveBarChart,
@@ -9,6 +10,10 @@ import {
 } from "@/components/impact/charts";
 import { SectionTitle } from "@/components/ui/primitives";
 import { useMemberData } from "@/components/member/member-data";
+import { CompanyLogo } from "@/components/impact/company-logo";
+import { rankCompanies } from "@/lib/scoring";
+import { companyRiskAnalysis } from "@/lib/company-intelligence";
+import { currentResearchCycle, previousResearchCycle } from "@/data/research-cycles";
 
 export function CompanyComparison() {
   const [selected, setSelected] = useState(["microsoft", "salesforce"]);
@@ -19,9 +24,7 @@ export function CompanyComparison() {
   const ranks = useMemo(
     () =>
       new Map(
-        [...companies]
-          .sort((a, b) => b.score - a.score)
-          .map((company, index) => [company.slug, index + 1]),
+        rankCompanies(companies).map(({ company, rank }) => [company.slug, rank]),
       ),
     [],
   );
@@ -29,6 +32,11 @@ export function CompanyComparison() {
     const available = companies.find((company) => !selected.includes(company.slug));
     if (available && selected.length < 6) setSelected([...selected, available.slug]);
   };
+  const historicalYears = useMemo(
+    () =>
+      [...new Set(compared.flatMap((company) => company.historicalScores.map((point) => point.year)))].sort(),
+    [compared],
+  );
   const savePdf = () => {
     recordActivity({
       type: "comparison",
@@ -47,40 +55,25 @@ export function CompanyComparison() {
       />
       <div className="mt-10 flex flex-wrap gap-3">
         {selected.map((value, index) => (
-          <label key={`${value}-${index}`} className="relative">
-            <span className="sr-only">Company {index + 1}</span>
-            <select
-              aria-label={`Company ${index + 1}`}
-              className="focus-ring min-w-52 rounded-lg border bg-panel px-4 py-3 pr-10"
+          <div key={`${value}-${index}`} className="relative flex items-center gap-1">
+            <CompanyPicker
               value={value}
-              onChange={(event) =>
-                setSelected(
-                  selected.map((item, itemIndex) =>
-                    itemIndex === index ? event.target.value : item,
-                  ),
-                )
+              selected={selected}
+              label={`Company ${index + 1}`}
+              onChange={(next) =>
+                setSelected(selected.map((item, itemIndex) => (itemIndex === index ? next : item)))
               }
-            >
-              {companies.map((company) => (
-                <option
-                  disabled={selected.includes(company.slug) && company.slug !== value}
-                  value={company.slug}
-                  key={company.slug}
-                >
-                  {company.name} ({company.ticker})
-                </option>
-              ))}
-            </select>
+            />
             {selected.length > 2 && (
               <button
                 onClick={() => setSelected(selected.filter((_, itemIndex) => itemIndex !== index))}
                 aria-label={`Remove ${compared[index]?.name}`}
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-zinc-500 hover:text-white"
+                className="focus-ring rounded-lg border p-3 text-zinc-500 hover:border-rose-400/30 hover:text-rose-300"
               >
                 <X className="size-4" />
               </button>
             )}
-          </label>
+          </div>
         ))}
         {selected.length < 6 && (
           <button onClick={addCompany} className="button-secondary">
@@ -98,13 +91,43 @@ export function CompanyComparison() {
         >
           <div className="border-b bg-panel p-5" />
           {compared.map((company) => (
-            <strong className="border-b bg-panel p-5 text-center" key={company.slug}>
+            <strong
+              className="flex flex-col items-center gap-3 border-b bg-panel p-5 text-center"
+              key={company.slug}
+            >
+              <CompanyLogo
+                name={company.name}
+                website={company.website}
+                logo={company.logo}
+                size="lg"
+              />
               {company.name}
             </strong>
           ))}
           {[
-            ["Overall score", ...compared.map((company) => company.score)],
-            ["Industry rank", ...compared.map((company) => `#${ranks.get(company.slug)}`)],
+            ["Published cycle", ...compared.map(() => previousResearchCycle.dateLabel)],
+            [
+              "Current review",
+              ...compared.map(() =>
+                currentResearchCycle.status === "complete" ? "Complete" : "Pending validation",
+              ),
+            ],
+            ["CEO", ...compared.map((company) => company.executive?.name ?? "")],
+            ["CEO title", ...compared.map((company) => company.executive?.title ?? "")],
+            [
+              "Founded",
+              ...compared.map((company) => company.founded ?? "Data unavailable"),
+            ],
+            ["Published overall score", ...compared.map((company) => company.score)],
+            ["Published index rank", ...compared.map((company) => `#${ranks.get(company.slug)}`)],
+            [
+              "Score change (last publication)",
+              ...compared.map((company) => `${company.change > 0 ? "+" : ""}${company.change}`),
+            ],
+            [
+              "Risk profile",
+              ...compared.map((company) => companyRiskAnalysis(company, companies).profile),
+            ],
             [
               "Index percentile",
               ...compared.map(
@@ -169,12 +192,12 @@ export function CompanyComparison() {
           <InteractiveLineChart
             title="Historical trend"
             description="Published Impact500 scores by research cycle."
-            data={[2021, 2022, 2023, 2024, 2025, 2026].map((year) => ({
+            data={historicalYears.map((year) => ({
               label: String(year),
               ...Object.fromEntries(
                 compared.map((company) => [
                   company.name,
-                  company.historicalScores.find((point) => point.year === year)?.score ?? 0,
+                  company.historicalScores.find((point) => point.year === year)?.score,
                 ]),
               ),
             }))}
@@ -185,10 +208,19 @@ export function CompanyComparison() {
       <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {compared.map((company) => (
           <article className="rounded-2xl border bg-panel p-6" key={company.slug}>
+            <CompanyLogo
+              name={company.name}
+              website={company.website}
+              logo={company.logo}
+              size="lg"
+            />
             <p className="text-xs uppercase tracking-wider text-cyan">
               {company.ticker} · Research context
             </p>
             <h2 className="mt-3 text-xl font-semibold">{company.name}</h2>
+            <p className="mt-2 text-sm text-zinc-400">
+              <span className="text-zinc-500">CEO:</span> {company.executive?.name}
+            </p>
             <h3 className="mt-6 text-xs font-semibold uppercase tracking-wider text-emerald-400">
               Strengths
             </h3>
@@ -209,9 +241,104 @@ export function CompanyComparison() {
               Key initiative
             </h3>
             <p className="mt-3 text-sm text-zinc-400">{company.initiatives[0]?.title}</p>
+            <Link
+              href={`/companies/${company.slug}`}
+              className="mt-6 inline-flex text-sm font-semibold text-cyan hover:text-white"
+            >
+              View company profile →
+            </Link>
           </article>
         ))}
       </div>
     </section>
+  );
+}
+
+function CompanyPicker({
+  value,
+  selected,
+  label,
+  onChange,
+}: {
+  value: string;
+  selected: string[];
+  label: string;
+  onChange: (slug: string) => void;
+}) {
+  const current = companies.find((company) => company.slug === value);
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const options = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    return companies
+      .filter(
+        (company) =>
+          (!selected.includes(company.slug) || company.slug === value) &&
+          (!term ||
+            `${company.name} ${company.ticker} ${company.executive?.name ?? ""} ${company.industry}`
+              .toLowerCase()
+              .includes(term)),
+      )
+      .slice(0, 12);
+  }, [query, selected, value]);
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        aria-label={label}
+        aria-expanded={open}
+        onClick={() => setOpen((state) => !state)}
+        className="focus-ring min-w-56 rounded-xl border bg-panel px-4 py-3 text-left hover:border-cyan/40"
+      >
+        <strong className="block text-sm">{current?.name}</strong>
+        <small className="text-zinc-500">
+          {current?.ticker} · {current?.industry}
+        </small>
+      </button>
+      {open && (
+        <div className="absolute left-0 top-[calc(100%+.5rem)] z-40 w-80 overflow-hidden rounded-2xl border bg-ink p-2 shadow-2xl shadow-black/40">
+          <label className="relative block">
+            <span className="sr-only">Search companies</span>
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-500" />
+            <input
+              autoFocus
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={(event) => event.key === "Escape" && setOpen(false)}
+              placeholder="Search 500+ companies…"
+              className="focus-ring w-full rounded-xl border bg-panel py-3 pl-9 pr-3 text-sm"
+            />
+          </label>
+          <div className="mt-2 max-h-72 overflow-y-auto">
+            {options.map((company) => (
+              <button
+                type="button"
+                key={company.slug}
+                onClick={() => {
+                  onChange(company.slug);
+                  setOpen(false);
+                  setQuery("");
+                }}
+                className="focus-ring flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left hover:bg-white/5"
+              >
+                <span className="flex items-center gap-3">
+                  <CompanyLogo name={company.name} website={company.website} logo={company.logo} />
+                  <span>
+                    <strong className="block text-sm">{company.name}</strong>
+                    <small className="text-zinc-500">
+                      {company.ticker} · {company.industry}
+                    </small>
+                  </span>
+                </span>
+                {company.slug === value && <Check className="size-4 text-cyan" />}
+              </button>
+            ))}
+            {!options.length && (
+              <p className="px-3 py-6 text-center text-sm text-zinc-500">No companies found.</p>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

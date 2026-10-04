@@ -22,7 +22,7 @@ export default function Disclaimer() {
         </p>
         <h2 className="text-xl font-semibold text-white">Corrections</h2>
         <p>
-          We welcome substantive corrections at research@impact500.org and review new evidence under
+          We welcome substantive corrections at dshetty2498@gmail.com and review new evidence under
           our published methodology.
         </p>
       </div>

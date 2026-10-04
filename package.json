@@ -1,12 +1,14 @@
 {
-  "name": "impact500",
+  "name": "impact-horizon",
   "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@10.12.1",
   "pnpm": {
     "overrides": {
-      "postcss": ">=8.5.10",
-      "sharp": ">=0.35.0"
+      "d3-color": "3.1.0",
+      "nanoid@3": "3.3.19",
+      "postcss": "8.5.28",
+      "sharp": "0.35.5"
     }
   },
   "scripts": {
@@ -17,29 +19,37 @@
     "typecheck": "tsc --noEmit",
     "check": "pnpm lint && pnpm typecheck && pnpm format:check && pnpm build",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "audit:production": "node scripts/audit-production.mjs"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.24.1",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.8",
+    "@vercel/analytics": "^2.0.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.0.6",
     "lucide-react": "^0.468.0",
-    "next": "^15.1.6",
+    "next": "^15.5.27",
+    "nodemailer": "^10.0.14",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-simple-maps": "^3.0.0",
     "recharts": "^2.15.1",
-    "tailwind-merge": "^2.6.0"
+    "tailwind-merge": "^2.6.0",
+    "us-atlas": "^3.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
-    "autoprefixer": "^10.4.20",
     "@types/node": "^22.10.2",
+    "@types/nodemailer": "^8.0.1",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
+    "@types/react-simple-maps": "^3.0.6",
+    "autoprefixer": "^10.4.20",
+    "city-timezones": "^1.3.4",
     "eslint": "^9.17.0",
-    "eslint-config-next": "^15.1.6",
+    "eslint-config-next": "^15.5.27",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
     "tailwindcss": "^3.4.17",

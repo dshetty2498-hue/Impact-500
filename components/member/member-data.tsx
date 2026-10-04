@@ -47,7 +47,7 @@ const initial: MemberState = {
   notifications: { research: true, reports: true, scores: false, product: true },
 };
 const MemberContext = createContext<Context | null>(null);
-const storageKey = "impact500-member-v1";
+const storageKey = "impact-horizon-member-v1";
 
 export function MemberDataProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState(initial);

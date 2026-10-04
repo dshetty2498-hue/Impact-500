@@ -20,6 +20,10 @@ create table public.companies (
   slug text not null unique,
   ticker text,
   founded_year smallint,
+  modern_company_established_year smallint,
+  founding_source_title text,
+  founding_source_url text,
+  founding_verified_at date,
   employee_count bigint check (employee_count >= 0),
   annual_revenue_usd numeric(18,2) check (annual_revenue_usd >= 0),
   fortune_rank integer check (fortune_rank between 1 and 500),
@@ -36,6 +40,29 @@ create table public.companies (
 create index companies_industry_idx on public.companies(industry_id);
 create index companies_published_idx on public.companies(is_published, fortune_rank);
 
+create type public.executive_verification_status as enum ('verified', 'manual_review');
+create table public.company_executives (
+  id uuid primary key default gen_random_uuid(),
+  company_id uuid not null references public.companies(id) on delete cascade,
+  full_name text not null,
+  title text not null,
+  appointed_year smallint check (appointed_year between 1800 and 2100),
+  biography text,
+  headshot_url text,
+  source_url text not null,
+  verified_at date not null,
+  verification_status public.executive_verification_status not null default 'manual_review',
+  is_current boolean not null default true,
+  display_order smallint not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (company_id, full_name, is_current)
+);
+create index company_executives_current_idx
+  on public.company_executives(company_id, is_current, display_order);
+create index company_executives_name_search_idx
+  on public.company_executives using gin (to_tsvector('english', full_name));
+
 create table public.company_profiles (
   company_id uuid primary key references public.companies(id) on delete cascade,
   overview text,
@@ -51,6 +78,14 @@ create table public.company_profiles (
 create table public.score_periods (
   id uuid primary key default gen_random_uuid(),
   label text not null unique,
+  cycle_key text unique,
+  status text not null default 'complete' check (status in ('updating', 'complete')),
+  previous_period_id uuid references public.score_periods(id) on delete set null,
+  began_at timestamptz,
+  completed_at timestamptz,
+  companies_reviewed integer not null default 0 check (companies_reviewed >= 0),
+  companies_with_updated_scores integer not null default 0 check (companies_with_updated_scores >= 0),
+  methodology_version text not null default '4.2',
   published_at timestamptz,
   is_current boolean not null default false,
   check (label ~ '^[0-9]{4}(-[0-9]{2})?$')
@@ -82,7 +117,7 @@ create table public.scores (
   period_id uuid not null references public.score_periods(id) on delete restrict,
   pillar_id uuid references public.pillars(id) on delete restrict,
   score numeric(5,2) not null check (score >= 0 and score <= 100),
-  letter_grade text generated always as (case when score >= 90 then 'A+' when score >= 85 then 'A' when score >= 80 then 'A-' when score >= 75 then 'B+' when score >= 70 then 'B' else 'C' end) stored,
+  letter_grade text generated always as (case when score >= 90 then 'A' when score >= 80 then 'B' when score >= 70 then 'C' when score >= 60 then 'D' else 'F' end) stored,
   methodology_version text not null,
   published_at timestamptz,
   unique(company_id, period_id, pillar_id)

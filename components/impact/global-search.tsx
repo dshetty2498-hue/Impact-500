@@ -2,23 +2,28 @@
 import Link from "next/link";
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { ArrowRight, Clock3, LoaderCircle, Search, TrendingUp, X } from "lucide-react";
-import {
-  companies,
-  industries,
-  methodologySections,
-  news,
-  reports,
-  research,
-  team,
-} from "@/lib/data";
+import { companies, industries, methodologySections, news, publications, team } from "@/lib/data";
 import { SectionTitle } from "@/components/ui/primitives";
+import { CompanyLogo } from "@/components/impact/company-logo";
 
 const instituteIndex = [
-  ["Building Impact500", "Project history design evolution development roadmap", "/building-impact500"],
+  [
+    "Building Impact500",
+    "Project history design evolution development roadmap",
+    "/building-impact-horizon",
+  ],
   ["Research Team", "Founder researchers contributors team", "/team"],
   ["Project Impact", "Research hours companies data points platform versions", "/impact"],
-  ["Technical Architecture", "Frontend backend database search hosting deployment", "/architecture"],
-  ["Editorial Standards", "Citation fact checking corrections transparency", "/editorial-standards"],
+  [
+    "Technical Architecture",
+    "Frontend backend database search hosting deployment",
+    "/architecture",
+  ],
+  [
+    "Editorial Standards",
+    "Citation fact checking corrections transparency",
+    "/editorial-standards",
+  ],
   ["Press and Media", "Media kit brand assets press contact", "/media"],
   ["Partnerships", "Academic business research volunteer guest researchers", "/partnerships"],
 ].map(([title, search, href]) => ({ title, search, meta: "Institute", href }));
@@ -26,21 +31,33 @@ const instituteIndex = [
 const index = [
   ...companies.map((c) => ({
     title: c.name,
-    search: `${c.name} ${c.ticker} ${c.industry} ${c.location} ${c.headquarters} ${c.grade} ${c.score} ${Object.entries(c.pillars).map(([pillar, score]) => `${pillar} ${score}`).join(" ")} ${c.fortuneRank ? `Fortune rank ${c.fortuneRank} Fortune ${c.fortuneRankYear}` : "private company not Fortune ranked"}`,
-    meta: `Company · ${c.ticker} · ${c.industry} · ${c.grade} · ${c.score}${c.fortuneRank ? ` · Fortune #${c.fortuneRank}` : ""}`,
+    search: `${c.name} ${c.ticker} ${c.industry} ${c.location} ${c.headquarters} ${c.ceo ?? c.executive?.name ?? ""} ${c.grade} ${c.score} ${Object.entries(
+      c.pillars,
+    )
+      .map(([pillar, score]) => `${pillar} ${score}`)
+      .join(
+        " ",
+      )} ${c.founded ? `founded established ${c.founded}` : "founding date unavailable"} ${c.fortuneRank ? `Fortune rank ${c.fortuneRank} Fortune ${c.fortuneRankYear}` : "private company not Fortune ranked"}`,
+    meta: `Company · ${c.industry} · Fortune #${c.fortuneRank} · Founded ${c.founded ?? "unavailable"} · CSR ${c.score.toFixed(1)}`,
     href: `/companies/${c.slug}`,
+    ceoName: c.executive?.name ?? "",
+    companyName: c.name,
+    industryName: c.industry,
+    fortuneRank: c.fortuneRank,
+    csrScore: c.score,
+    founded: c.founded,
+    logoName: c.name,
+    logoWebsite: c.website,
+    logoUrl: c.logo,
   })),
-  ...research.map((a) => ({
+  ...publications.map((a) => ({
     title: a.title,
-    search: `${a.title} ${a.type} ${a.excerpt}`,
-    meta: `Research · ${a.type}`,
+    search: `${a.title} ${a.type} ${a.category} ${a.excerpt} ${a.tags.join(" ")}`,
+    meta: `${a.category} · ${a.date}`,
     href: `/research/${a.slug}`,
-  })),
-  ...reports.map((r) => ({
-    title: r.title,
-    search: `${r.title} annual report ${r.year}`,
-    meta: `Report · ${r.year}`,
-    href: r.href,
+    description: a.excerpt,
+    relatedIndustry: industries.find((industry) => a.industrySlugs.includes(industry.slug))?.name,
+    action: "Read Article",
   })),
   ...team.map((m) => ({
     title: m.name,
@@ -64,11 +81,11 @@ const index = [
     title: item.headline,
     search: `${item.headline} ${item.summary} ${item.category}`,
     meta: `News · ${item.category}`,
-    href: `/news#${item.slug}`,
+    href: `/news/${item.slug}`,
   })),
   ...instituteIndex,
 ];
-const popular = ["MSFT", "Technology", "A+", "Climate", "Annual report", "Validation"];
+const popular = ["MSFT", "Technology", "Grade A", "Climate", "Annual report", "Validation"];
 function Highlight({ text, query }: { text: string; query: string }) {
   const position = text.toLowerCase().indexOf(query.toLowerCase());
   if (position < 0 || !query) return <>{text}</>;
@@ -90,7 +107,7 @@ export function GlobalSearch() {
   const isFiltering = query.trim().toLowerCase() !== deferred;
   useEffect(() => {
     try {
-      setRecent(JSON.parse(localStorage.getItem("impact500-recent") ?? "[]"));
+      setRecent(JSON.parse(localStorage.getItem("impact-horizon-recent") ?? "[]"));
     } catch {
       setRecent([]);
     }
@@ -106,9 +123,9 @@ export function GlobalSearch() {
   const remember = (value: string) => {
     const next = [value, ...recent.filter((item) => item !== value)].slice(0, 5);
     setRecent(next);
-    localStorage.setItem("impact500-recent", JSON.stringify(next));
+    localStorage.setItem("impact-horizon-recent", JSON.stringify(next));
     window.dispatchEvent(
-      new CustomEvent("impact500:search", {
+      new CustomEvent("impact-horizon:search", {
         detail: { query: value, resultCount: results.length, timestamp: Date.now() },
       }),
     );
@@ -152,7 +169,7 @@ export function GlobalSearch() {
           aria-label="Search Impact500"
           aria-controls="search-results"
           aria-activedescendant={results[active] ? `result-${active}` : undefined}
-          placeholder="Try “technology”, “climate”, or “validation”…"
+          placeholder="Try “Satya Nadella”, “Microsoft”, or “technology”…"
           aria-autocomplete="list"
           aria-expanded={deferred.length >= 2}
           className="focus-ring w-full rounded-2xl border bg-panel py-5 pl-14 pr-14 text-lg shadow-2xl shadow-black/20 hover:border-white/20"
@@ -188,17 +205,52 @@ export function GlobalSearch() {
                 key={`${result.meta}-${result.href}`}
                 className={`focus-ring flex items-center gap-4 border-b p-5 transition duration-200 last:border-0 ${index === active ? "bg-accent/[.09]" : "hover:bg-white/[.035]"}`}
               >
+                {"logoName" in result && typeof result.logoName === "string" ? (
+                  <CompanyLogo
+                    name={result.logoName}
+                    website={
+                      "logoWebsite" in result && typeof result.logoWebsite === "string"
+                        ? result.logoWebsite
+                        : undefined
+                    }
+                    logo={
+                      "logoUrl" in result && typeof result.logoUrl === "string"
+                        ? result.logoUrl
+                        : null
+                    }
+                  />
+                ) : null}
                 <span className="min-w-0 flex-1">
                   <strong className="block truncate text-lg">
                     <Highlight text={result.title} query={query} />
                   </strong>
                   <span className="mt-1 block text-sm text-zinc-500">{result.meta}</span>
+                  {"description" in result && typeof result.description === "string" ? (
+                    <span className="mt-2 line-clamp-2 block text-sm text-zinc-300">
+                      {result.description}
+                    </span>
+                  ) : null}
+                  {"relatedIndustry" in result && typeof result.relatedIndustry === "string" ? (
+                    <span className="mt-1 block text-xs text-zinc-500">
+                      Related industry: {result.relatedIndustry} · Read Article
+                    </span>
+                  ) : null}
+                  {"ceoName" in result && typeof result.ceoName === "string" ? (
+                    <span className="mt-1 block text-sm text-zinc-300">
+                      CEO: <Highlight text={result.ceoName} query={query} /> · View Company Profile
+                    </span>
+                  ) : null}
                 </span>
                 <ArrowRight className="size-4 text-zinc-600" />
               </Link>
             ))
           ) : (
-            <div className="p-12 text-center"><p className="font-semibold text-white">No results for “{query}”.</p><p className="mt-2 text-sm text-zinc-500">Try a company ticker, industry, research topic, or methodology term.</p></div>
+            <div className="p-12 text-center">
+              <p className="font-semibold text-white">No results for “{query}”.</p>
+              <p className="mt-2 text-sm text-zinc-500">
+                Try a company ticker, industry, research topic, or methodology term.
+              </p>
+            </div>
           )
         ) : (
           <div className="grid gap-px bg-white/10 sm:grid-cols-2">
@@ -209,11 +261,7 @@ export function GlobalSearch() {
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {popular.map((item) => (
-                  <button
-                    onClick={() => setQuery(item)}
-                    key={item}
-                    className="chip"
-                  >
+                  <button onClick={() => setQuery(item)} key={item} className="chip">
                     {item}
                   </button>
                 ))}
@@ -227,11 +275,7 @@ export function GlobalSearch() {
               {recent.length ? (
                 <div className="mt-4 flex flex-wrap gap-2">
                   {recent.map((item) => (
-                    <button
-                      onClick={() => setQuery(item)}
-                      key={item}
-                      className="chip"
-                    >
+                    <button onClick={() => setQuery(item)} key={item} className="chip">
                       {item}
                     </button>
                   ))}
@@ -243,7 +287,12 @@ export function GlobalSearch() {
           </div>
         )}
       </div>
-      <div className="mt-4 flex items-center justify-between gap-4 text-xs text-zinc-500"><span>{deferred.length >= 2 ? `${results.length} results` : "Type at least two characters"}</span><span>Use ↑ ↓ to navigate · Enter to open · Esc to clear</span></div>
+      <div className="mt-4 flex items-center justify-between gap-4 text-xs text-zinc-500">
+        <span>
+          {deferred.length >= 2 ? `${results.length} results` : "Type at least two characters"}
+        </span>
+        <span>Use ↑ ↓ to navigate · Enter to open · Esc to clear</span>
+      </div>
     </section>
   );
 }

@@ -41,10 +41,16 @@ const tooltipStyle = {
 function Frame({
   title,
   description,
+  data,
+  series,
+  labelKey = "label",
   children,
 }: {
   title: string;
   description?: string;
+  data?: Datum[];
+  series?: Series[];
+  labelKey?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -52,7 +58,9 @@ function Frame({
       <figcaption className="mb-7 flex items-start justify-between gap-4">
         <span>
           <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
-          {description && <p className="mt-2 max-w-xl text-sm leading-6 text-zinc-400">{description}</p>}
+          {description && (
+            <p className="mt-2 max-w-xl text-sm leading-6 text-zinc-400">{description}</p>
+          )}
         </span>
         <button
           type="button"
@@ -65,6 +73,41 @@ function Frame({
         </button>
       </figcaption>
       <div className="h-72 w-full md:h-80">{children}</div>
+      {data && series && (
+        <details className="mt-4 rounded-lg border border-white/10 p-3 text-sm">
+          <summary className="focus-ring cursor-pointer font-medium text-slate-300">
+            View chart data as a table
+          </summary>
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full border-collapse text-left text-xs">
+              <thead>
+                <tr>
+                  <th className="border-b p-2">Category</th>
+                  {series.map((item) => (
+                    <th key={item.key} className="border-b p-2">
+                      {item.label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((row, index) => (
+                  <tr key={`${String(row[labelKey])}-${index}`}>
+                    <th className="border-b border-white/5 p-2 font-medium">
+                      {String(row[labelKey])}
+                    </th>
+                    {series.map((item) => (
+                      <td key={item.key} className="border-b border-white/5 p-2">
+                        {String(row[item.key] ?? "Unavailable")}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      )}
     </figure>
   );
 }
@@ -112,7 +155,7 @@ export function InteractiveBarChart({
   domain?: [number, number];
 }) {
   return (
-    <Frame title={title} description={description}>
+    <Frame title={title} description={description} data={data} series={series} labelKey={xKey}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ left: -20, right: 8 }}>
           <CartesianGrid stroke="rgba(255,255,255,.07)" vertical={false} />
@@ -164,7 +207,7 @@ export function InteractiveLineChart({
   const gradientId = useId().replaceAll(":", "");
   const Chart = area ? AreaChart : LineChart;
   return (
-    <Frame title={title} description={description}>
+    <Frame title={title} description={description} data={data} series={series} labelKey={xKey}>
       <ResponsiveContainer width="100%" height="100%">
         <Chart data={data} margin={{ left: -20, right: 8 }}>
           <defs>
@@ -225,12 +268,18 @@ export function InteractivePieChart({
   title,
   description,
 }: {
-  data: { name: string; value: number }[];
+  data: { name: string; value: number; color?: string }[];
   title: string;
   description?: string;
 }) {
   return (
-    <Frame title={title} description={description}>
+    <Frame
+      title={title}
+      description={description}
+      data={data}
+      series={[{ key: "value", label: "Value" }]}
+      labelKey="name"
+    >
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -242,7 +291,7 @@ export function InteractivePieChart({
             paddingAngle={3}
           >
             {data.map((item, index) => (
-              <Cell key={item.name} fill={colors[index % colors.length]} />
+              <Cell key={item.name} fill={item.color ?? colors[index % colors.length]} />
             ))}
           </Pie>
           <Tooltip contentStyle={tooltipStyle} />
@@ -263,12 +312,25 @@ export function InteractiveRadarChart({
   description?: string;
 }) {
   return (
-    <Frame title={title} description={description}>
+    <Frame
+      title={title}
+      description={description}
+      data={data}
+      series={[{ key: "value", label: "Score" }]}
+      labelKey="subject"
+    >
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data}>
           <PolarGrid stroke="rgba(255,255,255,.14)" />
           <PolarAngleAxis dataKey="subject" tick={{ fill: "#a1a1aa", fontSize: 12 }} />
-          <Radar dataKey="value" stroke="#60a5fa" strokeWidth={2} fill="#3b82f6" fillOpacity={0.38} animationDuration={1000} />
+          <Radar
+            dataKey="value"
+            stroke="#60a5fa"
+            strokeWidth={2}
+            fill="#3b82f6"
+            fillOpacity={0.38}
+            animationDuration={1000}
+          />
           <Tooltip contentStyle={tooltipStyle} />
         </RadarChart>
       </ResponsiveContainer>
@@ -288,7 +350,7 @@ export function MultiRadarChart({
   description?: string;
 }) {
   return (
-    <Frame title={title} description={description}>
+    <Frame title={title} description={description} data={data} series={series} labelKey="subject">
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data}>
           <PolarGrid stroke="rgba(255,255,255,.14)" />
