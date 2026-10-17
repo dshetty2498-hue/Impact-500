@@ -259,8 +259,11 @@ export function analystObservations(company: Company, allCompanies: readonly Com
     keyof PillarScores,
     number,
   ][];
-  const latest = company.historicalScores.at(-1);
-  const previous = company.historicalScores.at(-2);
+  const scoreHistory = company.cycleHistory?.length
+    ? company.cycleHistory
+    : company.historicalScores;
+  const latest = scoreHistory.at(-1);
+  const previous = scoreHistory.at(-2);
   const trend = latest && previous ? latest.score - previous.score : null;
   const rank = peers.findIndex((item) => item.slug === company.slug) + 1;
   const risk = companyRiskAnalysis(company, allCompanies).risks[0];

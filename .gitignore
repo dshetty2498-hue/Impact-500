@@ -7,3 +7,5 @@ node_modules
 .DS_Store
 *.log
 coverage
+research/cycles/*/validation-report.json
+research/cycles/*/source-audit.json

@@ -1,4 +1,5 @@
 import type { LetterGrade } from "@/lib/domain/types";
+import { gradeForScore as sharedGradeForScore } from "@/lib/scoring-engine.mjs";
 
 export type { LetterGrade } from "@/lib/domain/types";
 
@@ -56,11 +57,7 @@ export const gradingScale = [
 ] as const;
 
 export function gradeForScore(score: number): LetterGrade {
-  if (score >= 90) return "A";
-  if (score >= 80) return "B";
-  if (score >= 70) return "C";
-  if (score >= 60) return "D";
-  return "F";
+  return sharedGradeForScore(score);
 }
 
 export function gradeStyle(grade: string) {

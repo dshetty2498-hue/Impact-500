@@ -29,12 +29,28 @@ export default function ResearchCyclesPage() {
             <h2 className="display mt-3 text-3xl">{currentResearchCycle.name}</h2>
             <p className="mt-3 max-w-3xl leading-7 text-slate-400">{currentResearchCycle.note}</p>
           </div>
-          <span className="inline-flex w-fit items-center gap-2 border border-amber-300/30 px-3 py-2 text-sm font-semibold text-amber-300">
-            <Clock3 className="size-4" /> Updating
+          <span
+            className={`inline-flex w-fit items-center gap-2 border px-3 py-2 text-sm font-semibold ${
+              currentResearchCycle.status === "complete"
+                ? "border-emerald-400/30 text-emerald-400"
+                : "border-amber-300/30 text-amber-300"
+            }`}
+          >
+            {currentResearchCycle.status === "complete" ? (
+              <CheckCircle2 className="size-4" />
+            ) : (
+              <Clock3 className="size-4" />
+            )}
+            {currentResearchCycle.status === "complete" ? "Complete" : "Updating"}
           </span>
         </div>
         <dl className="mt-8 grid gap-5 border-t pt-6 sm:grid-cols-2 lg:grid-cols-4">
-          <CycleMetric label="Cycle began" value="September 29, 2026" />
+          <CycleMetric
+            label="Cycle began"
+            value={new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeZone: "UTC" }).format(
+              new Date(`${currentResearchCycle.beganAt}T00:00:00Z`),
+            )}
+          />
           <CycleMetric label="Universe" value={`${companies.length} companies`} />
           <CycleMetric
             label="Evidence reviews completed"

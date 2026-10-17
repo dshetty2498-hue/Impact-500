@@ -21,7 +21,7 @@ import { CompanyLogo } from "@/components/impact/company-logo";
 import { average, calculateIndustryStats } from "@/lib/industry-data";
 import { analystObservations, companyRiskAnalysis } from "@/lib/company-intelligence";
 import { CompanyRiskAnalysis } from "@/components/impact/company-risk-analysis";
-import { currentResearchCycle, previousResearchCycle } from "@/data/research-cycles";
+import { currentResearchCycle, researchCycles } from "@/data/research-cycles";
 import { rankCompanies } from "@/lib/scoring";
 
 // The expanded index contains 500+ detailed reports. Render profiles on demand
@@ -48,6 +48,12 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
   const company = companies.find((c) => c.slug === slug);
   if (!company) notFound();
   const details = companyDetails[company.slug];
+  const publishedCycle =
+    researchCycles.find((cycle) => cycle.id === company.publishedCycleId) ?? currentResearchCycle;
+  const previousSnapshot = company.cycleHistory?.at(-2);
+  const currentSnapshot = company.cycleHistory?.at(-1);
+  const rankMovement =
+    previousSnapshot && currentSnapshot ? previousSnapshot.rank - currentSnapshot.rank : null;
   const industryPeers = companies.filter(
     (item) => item.industry === company.industry && item.slug !== company.slug,
   );
@@ -71,6 +77,17 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
   }));
   const riskAnalysis = companyRiskAnalysis(company, companies);
   const observations = analystObservations(company, companies);
+  const scoreHistory = company.cycleHistory?.length
+    ? company.cycleHistory.map((snapshot) => ({
+        key: snapshot.cycleId,
+        label: snapshot.cycleId,
+        score: snapshot.score,
+      }))
+    : company.historicalScores.map((point) => ({
+        key: String(point.year),
+        label: String(point.year),
+        score: point.score,
+      }));
   const relatedArticles = research
     .filter((article) =>
       article.tags.some(
@@ -131,8 +148,9 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
           {currentResearchCycle.status === "complete" ? "Complete" : "Updating"}
         </strong>
         <span className="mt-1 block text-xs leading-5 text-slate-500">
-          Current score published in {previousResearchCycle.dateLabel}. This profile remains under
-          evidence review and will not receive a new score until validation is complete.
+          {currentResearchCycle.status === "complete"
+            ? `Updated for Impact Horizon Research Cycle — ${publishedCycle.dateLabel}.`
+            : `Current score published in ${publishedCycle.dateLabel}. This profile remains under evidence review and will not receive a new score until validation is complete.`}
         </span>
       </div>
       <div className="mt-8 border-y py-8 md:py-10">
@@ -270,10 +288,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
             area
             title="Historical score"
             description="Impact500 score across published research cycles."
-            data={company.historicalScores.map(({ year, score }) => ({
-              label: String(year),
-              score,
-            }))}
+            data={scoreHistory}
             series={[{ key: "score", label: "Score" }]}
           />
         </div>
@@ -367,9 +382,10 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
           </h2>
           <p className="mt-4 leading-7 text-zinc-400">
             {company.name} scores {Math.abs(company.score - industryAverage).toFixed(1)} points{" "}
-            {company.score >= industryAverage ? "above" : "below"} its industry average. Score and
-            rank movement are unavailable until the current review produces a second validated cycle
-            snapshot.
+            {company.score >= industryAverage ? "above" : "below"} its industry average.{" "}
+            {rankMovement === null
+              ? "Score and rank movement remain unavailable until a second validated cycle snapshot is published."
+              : `Its score moved ${company.change >= 0 ? "+" : ""}${company.change.toFixed(1)} points and its index rank moved ${rankMovement >= 0 ? "+" : ""}${rankMovement} places from the prior cycle.`}
           </p>
         </article>
       </section>
@@ -481,15 +497,14 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
         <p className="text-xs uppercase tracking-[.18em] text-cyan">Historical timeline</p>
         <h2 className="display mt-3 text-4xl">Score history and CSR milestones.</h2>
         <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {company.historicalScores.map((point, index) => {
-            const previous = company.historicalScores[index - 1];
+          {scoreHistory.map((point, index) => {
+            const previous = scoreHistory[index - 1];
             const delta = previous ? point.score - previous.score : null;
-            const milestoneIndex =
-              index - (company.historicalScores.length - company.initiatives.length);
+            const milestoneIndex = index - (scoreHistory.length - company.initiatives.length);
             const milestone = milestoneIndex >= 0 ? company.initiatives[milestoneIndex] : undefined;
             return (
-              <li key={point.year} className="surface-card">
-                <span className="text-xs text-cyan">{point.year}</span>
+              <li key={point.key} className="surface-card">
+                <span className="text-xs text-cyan">{point.label}</span>
                 <strong className="display mt-4 block text-4xl">{point.score.toFixed(1)}</strong>
                 <p className="mt-3 text-sm text-zinc-400">
                   {delta === null

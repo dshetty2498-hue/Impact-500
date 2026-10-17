@@ -141,10 +141,13 @@ export function CompanyTable({ compact = false }: { compact?: boolean }) {
   const exportCsv = () => {
     const escape = (value: string | number) => `"${String(value).replaceAll('"', '""')}"`;
     const content = [
-      "Rank,Company,Ticker,CEO,CEO Title,Founded,Industry,Headquarters,Fortune Rank,Fortune Year,Revenue ($B),Employees,Score,Grade,Trend",
-      ...rows.map((company, index) =>
-        [
-          publishedRanks.get(company.slug) ?? index + 1,
+      "Rank,Company,Ticker,CEO,CEO Title,Founded,Industry,Headquarters,Fortune Rank,Fortune Year,Revenue ($B),Employees,Previous Score,Current Score,Score Change,Previous Rank,Current Rank,Rank Change,Previous Grade,Current Grade",
+      ...rows.map((company, index) => {
+        const previous = company.cycleHistory?.at(-2);
+        const current = company.cycleHistory?.at(-1);
+        const currentRank = publishedRanks.get(company.slug) ?? index + 1;
+        return [
+          currentRank,
           company.name,
           company.ticker,
           company.executive?.name ?? "",
@@ -156,13 +159,18 @@ export function CompanyTable({ compact = false }: { compact?: boolean }) {
           company.fortuneRankYear,
           company.revenueBillions,
           company.employees,
-          company.score,
-          company.grade,
+          previous?.score ?? company.score,
+          current?.score ?? company.score,
           company.change,
+          previous?.rank ?? currentRank,
+          current?.rank ?? currentRank,
+          previous && current ? previous.rank - current.rank : 0,
+          previous?.grade ?? company.grade,
+          current?.grade ?? company.grade,
         ]
           .map(escape)
-          .join(","),
-      ),
+          .join(",");
+      }),
     ].join("\n");
     const url = URL.createObjectURL(new Blob([content], { type: "text/csv;charset=utf-8" }));
     const link = document.createElement("a");
@@ -450,54 +458,77 @@ export function CompanyTable({ compact = false }: { compact?: boolean }) {
         <span>Grade</span>
       </div>
       <div className="divide-y">
-        {visible.map((company) => (
-          <div
-            key={company.slug}
-            className="group grid gap-5 px-6 py-5 transition hover:bg-white/[.025] md:grid-cols-[3rem_1.5fr_1.1fr_.7fr_1fr_1.1fr_.8fr_.7fr] md:items-center"
-          >
-            <span className="text-sm text-zinc-600">
-              {String(publishedRanks.get(company.slug) ?? "—").padStart(2, "0")}
-            </span>
-            <Link
-              href={`/companies/${company.slug}`}
-              className="focus-ring flex min-w-0 items-center gap-3"
+        {visible.map((company) => {
+          const previous = company.cycleHistory?.at(-2);
+          const current = company.cycleHistory?.at(-1);
+          const movement = previous && current ? previous.rank - current.rank : null;
+          return (
+            <div
+              key={company.slug}
+              className="group grid gap-5 px-6 py-5 transition hover:bg-white/[.025] md:grid-cols-[3rem_1.5fr_1.1fr_.7fr_1fr_1.1fr_.8fr_.7fr] md:items-center"
             >
-              <CompanyLogo name={company.name} website={company.website} logo={company.logo} />
-              <span className="min-w-0 flex-1">
-                <strong className="block truncate text-base font-semibold tracking-tight transition group-hover:text-cyan md:text-lg">
-                  {company.name}
+              <span className="text-sm text-zinc-600">
+                <span className="block">
+                  {String(publishedRanks.get(company.slug) ?? "—").padStart(2, "0")}
+                </span>
+                {movement !== null && (
+                  <small
+                    className={
+                      movement > 0
+                        ? "text-emerald-400"
+                        : movement < 0
+                          ? "text-red-400"
+                          : "text-zinc-500"
+                    }
+                  >
+                    {movement > 0 ? "↑" : movement < 0 ? "↓" : "—"}
+                    {movement === 0 ? "" : Math.abs(movement)}
+                  </small>
+                )}
+              </span>
+              <Link
+                href={`/companies/${company.slug}`}
+                className="focus-ring flex min-w-0 items-center gap-3"
+              >
+                <CompanyLogo name={company.name} website={company.website} logo={company.logo} />
+                <span className="min-w-0 flex-1">
+                  <strong className="block truncate text-base font-semibold tracking-tight transition group-hover:text-cyan md:text-lg">
+                    {company.name}
+                  </strong>
+                  <small className="text-zinc-500">{company.ticker}</small>
+                  <small className="block truncate text-zinc-500 md:hidden">
+                    CEO: {company.executive?.name}
+                  </small>
+                  <small className="block text-zinc-500 md:hidden">
+                    Founded: {company.founded ?? "Data unavailable"}
+                  </small>
+                </span>
+              </Link>
+              <span className="hidden text-sm text-zinc-300 md:block">
+                {company.executive?.name}
+              </span>
+              <span className="hidden text-sm text-zinc-400 md:block">
+                {company.founded ?? "Data unavailable"}
+              </span>
+              <Link
+                href={`/industries/${company.industrySlug}`}
+                className="focus-ring hidden text-sm text-zinc-400 hover:text-cyan hover:underline md:block"
+              >
+                {company.industry}
+              </Link>
+              <span className="hidden text-sm text-zinc-400 md:block">{company.headquarters}</span>
+              <span className="flex items-center gap-3">
+                <span className="hidden h-1 flex-1 overflow-hidden bg-white/10 lg:block">
+                  <span className="block h-full bg-cyan" style={{ width: `${company.score}%` }} />
+                </span>
+                <strong className="min-w-12 text-right text-lg tabular-nums text-cyan">
+                  {company.score.toFixed(1)}
                 </strong>
-                <small className="text-zinc-500">{company.ticker}</small>
-                <small className="block truncate text-zinc-500 md:hidden">
-                  CEO: {company.executive?.name}
-                </small>
-                <small className="block text-zinc-500 md:hidden">
-                  Founded: {company.founded ?? "Data unavailable"}
-                </small>
               </span>
-            </Link>
-            <span className="hidden text-sm text-zinc-300 md:block">{company.executive?.name}</span>
-            <span className="hidden text-sm text-zinc-400 md:block">
-              {company.founded ?? "Data unavailable"}
-            </span>
-            <Link
-              href={`/industries/${company.industrySlug}`}
-              className="focus-ring hidden text-sm text-zinc-400 hover:text-cyan hover:underline md:block"
-            >
-              {company.industry}
-            </Link>
-            <span className="hidden text-sm text-zinc-400 md:block">{company.headquarters}</span>
-            <span className="flex items-center gap-3">
-              <span className="hidden h-1 flex-1 overflow-hidden bg-white/10 lg:block">
-                <span className="block h-full bg-cyan" style={{ width: `${company.score}%` }} />
-              </span>
-              <strong className="min-w-12 text-right text-lg tabular-nums text-cyan">
-                {company.score.toFixed(1)}
-              </strong>
-            </span>
-            <GradeBadge score={company.score} />
-          </div>
-        ))}
+              <GradeBadge score={company.score} />
+            </div>
+          );
+        })}
         {!visible.length && (
           <div className="p-12 text-center">
             <p className="font-medium">No companies match these filters</p>

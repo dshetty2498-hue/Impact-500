@@ -123,6 +123,9 @@ create table public.scores (
   unique(company_id, period_id, pillar_id)
 );
 create index scores_leaderboard_idx on public.scores(period_id, pillar_id, score desc);
+create unique index one_overall_score_per_company_period
+  on public.scores(company_id, period_id)
+  where pillar_id is null;
 
 create table public.metric_observations (
   id uuid primary key default gen_random_uuid(),
@@ -148,6 +151,27 @@ create table public.research_sources (
   accessed_on date not null default current_date,
   citation text,
   created_at timestamptz not null default now()
+);
+
+create table public.metric_observation_sources (
+  observation_id uuid not null references public.metric_observations(id) on delete cascade,
+  source_id uuid not null references public.research_sources(id) on delete cascade,
+  evidence_summary text not null,
+  analyst_analysis text not null,
+  primary key (observation_id, source_id)
+);
+
+create table public.research_cycle_validations (
+  period_id uuid primary key references public.score_periods(id) on delete cascade,
+  companies_in_universe integer not null check (companies_in_universe > 0),
+  companies_reviewed integer not null check (companies_reviewed >= 0),
+  companies_blocked integer not null check (companies_blocked >= 0),
+  source_count integer not null check (source_count >= 0),
+  failed_source_count integer not null check (failed_source_count >= 0),
+  integrity_hash text,
+  validation_report jsonb not null,
+  validated_at timestamptz not null default now(),
+  check (companies_reviewed + companies_blocked = companies_in_universe)
 );
 
 create table public.articles (

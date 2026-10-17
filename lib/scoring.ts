@@ -1,19 +1,14 @@
 import type { Company, LetterGrade, PillarScores, ResearchCycle } from "@/lib/domain/types";
 import { gradeForScore } from "@/lib/grading";
+import {
+  calculateOverallScore as sharedCalculateOverallScore,
+  PILLAR_WEIGHTS,
+} from "@/lib/scoring-engine.mjs";
 
-export const PILLAR_WEIGHTS = {
-  Environmental: 0.25,
-  "Financial responsibility": 0.25,
-  Philanthropy: 0.25,
-  Ethics: 0.25,
-} as const satisfies Record<keyof PillarScores, number>;
+export { PILLAR_WEIGHTS };
 
 export function calculateOverallScore(pillars: PillarScores): number {
-  const score = (Object.keys(PILLAR_WEIGHTS) as (keyof PillarScores)[]).reduce(
-    (sum, pillar) => sum + pillars[pillar] * PILLAR_WEIGHTS[pillar],
-    0,
-  );
-  return Number(score.toFixed(1));
+  return sharedCalculateOverallScore(pillars);
 }
 
 export type RankedCompany = {

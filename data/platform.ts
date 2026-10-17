@@ -15,7 +15,10 @@ import { validateCompanyLeadership } from "@/lib/leadership-validation";
 import { industrySlug, normalizeIndustryName, validateIndustryRegistry } from "@/lib/industry-data";
 import { validateCompanyIntelligence } from "@/lib/company-intelligence";
 import { researchCycles } from "@/data/research-cycles";
-import { rankCompanies, validateScoringEngine } from "@/lib/scoring";
+import { validateScoringEngine } from "@/lib/scoring";
+import { currentResearchCyclePackage } from "@/data/current-research-cycle.generated";
+import { publishedResearchCyclePackages } from "@/data/research-cycle-packages.generated";
+import { applyResearchCyclePackages } from "@/lib/research-cycle-package";
 
 const accessed = "2026-07-21";
 const source = (name: string, url: string, year = 2025) => [
@@ -959,23 +962,13 @@ const enrichedCompanyRecords: Company[] = currentFortuneCompanies.map((company) 
       })),
   }),
 );
-const baselineRanks = new Map(
-  rankCompanies(enrichedCompanyRecords).map(({ company, rank }) => [company.slug, rank]),
+export const companyRecords: Company[] = applyResearchCyclePackages(
+  enrichedCompanyRecords,
+  publishedResearchCyclePackages,
+  currentResearchCyclePackage,
+  "2026-jul-aug",
+  "2026-08-23",
 );
-export const companyRecords: Company[] = enrichedCompanyRecords.map((company) => ({
-  ...company,
-  publishedCycleId: "2026-jul-aug",
-  cycleHistory: [
-    {
-      cycleId: "2026-jul-aug",
-      cycleDate: "2026-08-23",
-      score: company.score,
-      rank: baselineRanks.get(company.slug)!,
-      grade: gradeForScore(company.score),
-      pillars: { ...company.pillars },
-    },
-  ],
-}));
 export const leadershipValidationReport = validateCompanyLeadership(companyRecords);
 if (leadershipValidationReport.issues.length) {
   throw new Error(`CEO data validation failed:\n${leadershipValidationReport.issues.join("\n")}`);

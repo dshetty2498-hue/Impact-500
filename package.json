@@ -17,9 +17,15 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "check": "pnpm lint && pnpm typecheck && pnpm format:check && pnpm build",
+    "check": "eslint . && tsc --noEmit && prettier --check . && next build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "test:scoring": "node --test lib/scoring-engine.test.mjs",
+    "cycle:init": "node scripts/research-cycle.mjs init",
+    "cycle:validate": "node scripts/research-cycle.mjs validate",
+    "cycle:sync": "node scripts/research-cycle.mjs sync",
+    "cycle:audit-sources": "node scripts/research-cycle.mjs audit-sources",
+    "cycle:publish": "node scripts/research-cycle.mjs publish",
     "audit:production": "node scripts/audit-production.mjs"
   },
   "dependencies": {

@@ -1,4 +1,6 @@
 import type { ResearchCycle } from "@/lib/domain/types";
+import { currentResearchCyclePackage } from "@/data/current-research-cycle.generated";
+import { publishedResearchCycles } from "@/data/research-cycle-history.generated";
 
 /**
  * Append-only publication-cycle registry. A cycle remains `updating` until the
@@ -18,19 +20,10 @@ export const researchCycles = [
     methodologyVersion: "4.2",
     note: "Baseline publication retained for historical comparison.",
   },
-  {
-    id: "2026-sep-oct",
-    name: "September–October 2026 research cycle",
-    dateLabel: "September–October 2026",
-    previousCycleId: "2026-jul-aug",
-    status: "updating",
-    companiesReviewed: 0,
-    companiesWithUpdatedScores: 0,
-    beganAt: "2026-09-29",
-    completedAt: null,
-    methodologyVersion: "4.2",
-    note: "Source review and indicator-level scoring are in progress. Previously published scores remain visible until validation is complete.",
-  },
+  ...publishedResearchCycles.filter(
+    (cycle) => cycle.id !== currentResearchCyclePackage.cycle.id && cycle.id !== "2026-jul-aug",
+  ),
+  currentResearchCyclePackage.cycle,
 ] as const satisfies readonly ResearchCycle[];
 
 export const currentResearchCycle = researchCycles.at(-1)!;

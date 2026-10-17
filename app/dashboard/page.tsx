@@ -14,6 +14,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { gradingScale } from "@/lib/grading";
 import { CompanyLogo } from "@/components/impact/company-logo";
 import { average, calculateAllIndustryStats, formatIndustryNumber } from "@/lib/industry-data";
+import { currentResearchCycle } from "@/data/research-cycles";
 export const metadata = pageMetadata(
   "CSR Intelligence Dashboard",
   "Interactive Impact500 score distributions, trends, industry rankings, and company performance.",
@@ -190,8 +191,9 @@ export default function DashboardPage() {
           <p className="text-xs uppercase tracking-wider text-cyan">Movement analysis</p>
           <h2 className="mt-4 text-2xl font-semibold">Awaiting a comparable snapshot</h2>
           <p className="mt-4 leading-7 text-slate-400">
-            Rank and score movement will be calculated after the September–October cycle passes its
-            evidence and integrity gates. Generated historical sequences are excluded.
+            Rank and score movement will be calculated after the {currentResearchCycle.dateLabel}
+            cycle passes its evidence and integrity gates. Generated historical sequences are
+            excluded.
           </p>
         </Chart>
         <Chart className="lg:col-span-2">
@@ -249,10 +251,11 @@ export default function DashboardPage() {
         <Ranking title="Bottom performers" companies={[...ranked].reverse().slice(0, 4)} />
       </div>
       <p className="mt-8 text-xs leading-6 text-zinc-500">
-        Scope note: dashboards reflect {companies.length} Fortune 500 profiles in the published 2026
-        baseline. The September–October cycle is updating; movement is withheld until a second
-        source-reviewed snapshot passes validation. Existing modeled pillar values remain clearly
-        provisional pending source-level analyst review.
+        Scope note: dashboards reflect {companies.length} Fortune 500 profiles in the latest
+        published dataset. The {currentResearchCycle.dateLabel} cycle is{" "}
+        {currentResearchCycle.status}; movement is withheld until a second source-reviewed snapshot
+        passes validation. Existing modeled pillar values remain clearly provisional pending
+        source-level analyst review.
       </p>
     </section>
   );

@@ -1,0 +1,20 @@
+{
+  "methodologyVersion": "4.2",
+  "companyUniverse": "Fortune 500 (2026)",
+  "missingEvidencePolicy": "block-publication",
+  "tieBreak": "score-descending-then-company-name",
+  "significantRankMovement": 20,
+  "pillars": {
+    "Environmental": 0.25,
+    "Financial responsibility": 0.25,
+    "Philanthropy": 0.25,
+    "Ethics": 0.25
+  },
+  "rubricDimensions": {
+    "Commitment": 0.2,
+    "Governance": 0.2,
+    "Implementation": 0.2,
+    "Outcome": 0.2,
+    "Verification": 0.2
+  }
+}

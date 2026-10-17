@@ -13,7 +13,7 @@ import { useMemberData } from "@/components/member/member-data";
 import { CompanyLogo } from "@/components/impact/company-logo";
 import { rankCompanies } from "@/lib/scoring";
 import { companyRiskAnalysis } from "@/lib/company-intelligence";
-import { currentResearchCycle, previousResearchCycle } from "@/data/research-cycles";
+import { currentResearchCycle, researchCycles } from "@/data/research-cycles";
 
 export function CompanyComparison() {
   const [selected, setSelected] = useState(["microsoft", "salesforce"]);
@@ -106,7 +106,14 @@ export function CompanyComparison() {
             </strong>
           ))}
           {[
-            ["Published cycle", ...compared.map(() => previousResearchCycle.dateLabel)],
+            [
+              "Published cycle",
+              ...compared.map(
+                (company) =>
+                  researchCycles.find((cycle) => cycle.id === company.publishedCycleId)
+                    ?.dateLabel ?? "Unknown",
+              ),
+            ],
             [
               "Current review",
               ...compared.map(() =>
