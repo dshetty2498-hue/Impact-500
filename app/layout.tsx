@@ -79,10 +79,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             Skip to content
           </a>
           <Navbar />
-          <ResearchCycleNotice
-            cycle={currentResearchCycle}
-            previousCycle={previousResearchCycle}
-          />
+          <ResearchCycleNotice cycle={currentResearchCycle} previousCycle={previousResearchCycle} />
           <PageTools />
           <main id="content" className="min-h-screen">
             {children}

@@ -28,10 +28,13 @@ export function CompanyRiskAnalysis({
           <p className="flex items-center gap-2 text-xs uppercase tracking-[.18em] text-amber-300">
             <ShieldAlert className="size-4" /> Impact Horizon analysis
           </p>
-          <h2 id="risk-analysis-title" className="display mt-3 text-4xl">Risk Analysis</h2>
+          <h2 id="risk-analysis-title" className="display mt-3 text-4xl">
+            Risk Analysis
+          </h2>
           <p className="mt-3 max-w-3xl leading-7 text-slate-400">
             Sector-relevant exposures for {companyName}, interpreted against the current peer data.
-            Inclusion is not evidence that an adverse event occurred and does not change the CSR score.
+            Inclusion is not evidence that an adverse event occurred and does not change the CSR
+            score.
           </p>
           <p className="mt-4 text-sm text-slate-300">
             Risk profile: <strong className="text-white">{profile} Risk</strong>
@@ -59,7 +62,9 @@ export function CompanyRiskAnalysis({
                   </p>
                   <h3 className="mt-2 text-xl font-semibold">{risk.category}</h3>
                 </div>
-                <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${levelColor[risk.level]}`}>
+                <span
+                  className={`rounded-full border px-3 py-1 text-xs font-semibold ${levelColor[risk.level]}`}
+                >
                   {risk.level}
                 </span>
               </div>

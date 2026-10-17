@@ -22,10 +22,7 @@ export function CompanyComparison() {
     .map((slug) => companies.find((company) => company.slug === slug))
     .filter(Boolean) as typeof companies;
   const ranks = useMemo(
-    () =>
-      new Map(
-        rankCompanies(companies).map(({ company, rank }) => [company.slug, rank]),
-      ),
+    () => new Map(rankCompanies(companies).map(({ company, rank }) => [company.slug, rank])),
     [],
   );
   const addCompany = () => {
@@ -34,7 +31,11 @@ export function CompanyComparison() {
   };
   const historicalYears = useMemo(
     () =>
-      [...new Set(compared.flatMap((company) => company.historicalScores.map((point) => point.year)))].sort(),
+      [
+        ...new Set(
+          compared.flatMap((company) => company.historicalScores.map((point) => point.year)),
+        ),
+      ].sort(),
     [compared],
   );
   const savePdf = () => {
@@ -114,10 +115,7 @@ export function CompanyComparison() {
             ],
             ["CEO", ...compared.map((company) => company.executive?.name ?? "")],
             ["CEO title", ...compared.map((company) => company.executive?.title ?? "")],
-            [
-              "Founded",
-              ...compared.map((company) => company.founded ?? "Data unavailable"),
-            ],
+            ["Founded", ...compared.map((company) => company.founded ?? "Data unavailable")],
             ["Published overall score", ...compared.map((company) => company.score)],
             ["Published index rank", ...compared.map((company) => `#${ranks.get(company.slug)}`)],
             [

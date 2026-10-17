@@ -58,7 +58,9 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
       .filter((item) => item.industry === company.industry)
       .sort((a, b) => b.score - a.score)
       .findIndex((item) => item.slug === company.slug) + 1;
-  const impactRank = rankCompanies(companies).find((item) => item.company.slug === company.slug)!.rank;
+  const impactRank = rankCompanies(companies).find(
+    (item) => item.company.slug === company.slug,
+  )!.rank;
   const industryMembers = companies.filter((item) => item.industry === company.industry);
   const pillarBenchmarks = Object.keys(company.pillars).map((pillar) => ({
     pillar,
@@ -366,8 +368,8 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
           <p className="mt-4 leading-7 text-zinc-400">
             {company.name} scores {Math.abs(company.score - industryAverage).toFixed(1)} points{" "}
             {company.score >= industryAverage ? "above" : "below"} its industry average. Score and
-            rank movement are unavailable until the current review produces a second validated
-            cycle snapshot.
+            rank movement are unavailable until the current review produces a second validated cycle
+            snapshot.
           </p>
         </article>
       </section>

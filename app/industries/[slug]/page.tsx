@@ -355,7 +355,9 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
                 ))}
               </div>
             ) : (
-              <p className="mt-5 text-sm text-slate-400">No elevated peer signals were identified.</p>
+              <p className="mt-5 text-sm text-slate-400">
+                No elevated peer signals were identified.
+              </p>
             )}
           </article>
         </div>
@@ -369,7 +371,8 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
                 .map((item) => item.category)
                 .join(", ")}
               . Cyber resilience, changing disclosure expectations, workforce capability, and
-              value-chain traceability remain areas to monitor where they appear in company profiles.
+              value-chain traceability remain areas to monitor where they appear in company
+              profiles.
             </p>
             <p className="mt-4 text-sm leading-6 text-slate-500">
               Potential CSR implication: weak controls can affect Environmental, Ethics,

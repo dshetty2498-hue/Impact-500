@@ -41,11 +41,23 @@ export function ResearchCycleNotice({
             evidence has passed methodology and data-integrity checks.
           </p>
           <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-xs text-slate-400">
-            <div><dt className="inline text-slate-500">Research cycle: </dt><dd className="inline text-white">{cycle.dateLabel}</dd></div>
-            <div><dt className="inline text-slate-500">Previous cycle: </dt><dd className="inline text-white">{previousCycle.dateLabel}</dd></div>
-            <div><dt className="inline text-slate-500">Status: </dt><dd className="inline font-semibold text-amber-300">Research in progress</dd></div>
+            <div>
+              <dt className="inline text-slate-500">Research cycle: </dt>
+              <dd className="inline text-white">{cycle.dateLabel}</dd>
+            </div>
+            <div>
+              <dt className="inline text-slate-500">Previous cycle: </dt>
+              <dd className="inline text-white">{previousCycle.dateLabel}</dd>
+            </div>
+            <div>
+              <dt className="inline text-slate-500">Status: </dt>
+              <dd className="inline font-semibold text-amber-300">Research in progress</dd>
+            </div>
           </dl>
-          <Link href="/research-cycles" className="mt-4 inline-flex text-sm font-semibold text-cyan hover:text-white">
+          <Link
+            href="/research-cycles"
+            className="mt-4 inline-flex text-sm font-semibold text-cyan hover:text-white"
+          >
             View cycle methodology and status →
           </Link>
         </div>

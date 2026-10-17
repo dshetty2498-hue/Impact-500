@@ -580,9 +580,7 @@ function CompanyPopup({ company, close }: { company: Company; close: () => void 
       <p className="mt-2 text-xs text-zinc-500">
         CEO: {company.executive?.name ?? "Data unavailable"}
       </p>
-      <p className="mt-2 text-xs text-zinc-500">
-        Founded: {company.founded ?? "Data unavailable"}
-      </p>
+      <p className="mt-2 text-xs text-zinc-500">Founded: {company.founded ?? "Data unavailable"}</p>
       <p className="mt-4 line-clamp-3 text-sm leading-6 text-zinc-400">{company.summary}</p>
       <div className="mt-4 flex items-end justify-between">
         <strong className="display text-3xl text-cyan">{company.score.toFixed(1)}</strong>

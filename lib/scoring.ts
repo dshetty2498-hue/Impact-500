@@ -1,9 +1,4 @@
-import type {
-  Company,
-  LetterGrade,
-  PillarScores,
-  ResearchCycle,
-} from "@/lib/domain/types";
+import type { Company, LetterGrade, PillarScores, ResearchCycle } from "@/lib/domain/types";
 import { gradeForScore } from "@/lib/grading";
 
 export const PILLAR_WEIGHTS = {
@@ -49,7 +44,8 @@ export function validateScoringEngine(
   const slugs = new Set<string>();
   const rankings = rankCompanies(companies);
 
-  if (companies.length !== 500) issues.push(`Expected 500 companies; received ${companies.length}.`);
+  if (companies.length !== 500)
+    issues.push(`Expected 500 companies; received ${companies.length}.`);
   for (const company of companies) {
     if (slugs.has(company.slug)) issues.push(`${company.name}: duplicate company slug.`);
     slugs.add(company.slug);
@@ -67,7 +63,11 @@ export function validateScoringEngine(
       }
     }
     if (company.fortuneRank !== null) {
-      if (!Number.isInteger(company.fortuneRank) || company.fortuneRank < 1 || company.fortuneRank > 500) {
+      if (
+        !Number.isInteger(company.fortuneRank) ||
+        company.fortuneRank < 1 ||
+        company.fortuneRank > 500
+      ) {
         issues.push(`${company.name}: Fortune rank is outside the published 1–500 range.`);
       }
     }
@@ -84,7 +84,8 @@ export function validateScoringEngine(
     issues.push("More than one research cycle is marked updating.");
   }
   for (const cycle of cycles.filter((item) => item.status === "complete")) {
-    if (!cycle.completedAt) issues.push(`${cycle.id}: completed cycle is missing a completion date.`);
+    if (!cycle.completedAt)
+      issues.push(`${cycle.id}: completed cycle is missing a completion date.`);
     if (cycle.companiesReviewed !== companies.length) {
       issues.push(`${cycle.id}: completed cycle does not include every company.`);
     }

@@ -12,14 +12,14 @@ export type CompanyFoundingRecord = {
 };
 
 export const companyFoundings: Record<string, CompanyFoundingRecord> = {
-  "amazon": {
+  amazon: {
     founded: 1994,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "walmart": {
+  walmart: {
     founded: 1962,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -33,14 +33,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "apple": {
+  apple: {
     founded: 1977,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "alphabet": {
+  alphabet: {
     founded: 1998,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -61,7 +61,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "mckesson": {
+  mckesson: {
     founded: 1833,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -75,14 +75,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "cencora": {
+  cencora: {
     founded: 1985,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "microsoft": {
+  microsoft: {
     founded: 1975,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -118,7 +118,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "nvidia": {
+  nvidia: {
     founded: 1993,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -140,7 +140,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "centene": {
+  centene: {
     founded: 1984,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -155,7 +155,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "chevron": {
+  chevron: {
     founded: 1879,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -176,7 +176,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "citigroup": {
+  citigroup: {
     founded: 1998,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -197,7 +197,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "kroger": {
+  kroger: {
     founded: 1883,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -250,7 +250,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "humana": {
+  humana: {
     founded: 1961,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -272,7 +272,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "comcast": {
+  comcast: {
     founded: 1963,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -307,14 +307,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "target": {
+  target: {
     founded: 1902,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "tesla": {
+  tesla: {
     founded: 2003,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -335,42 +335,42 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "pepsico": {
+  pepsico: {
     founded: 1898,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "boeing": {
+  boeing: {
     founded: 1916,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "ups": {
+  ups: {
     founded: 1907,
     sourceTitle: "United Parcel Service — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/United_Parcel_Service",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "rtx": {
+  rtx: {
     founded: 1922,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "fedex": {
+  fedex: {
     founded: 1971,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "progressive": {
+  progressive: {
     founded: 1937,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -399,7 +399,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "sysco": {
+  sysco: {
     founded: 1969,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -413,7 +413,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "albertsons": {
+  albertsons: {
     founded: 1939,
     sourceTitle: "Albertsons — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Albertsons",
@@ -427,7 +427,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "metlife": {
+  metlife: {
     founded: 1868,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -462,21 +462,21 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "allstate": {
+  allstate: {
     founded: 1931,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "caterpillar": {
+  caterpillar: {
     founded: 1925,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "ibm": {
+  ibm: {
     founded: 1911,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -490,21 +490,21 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "merck": {
+  merck: {
     founded: 1891,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "nationwide": {
+  nationwide: {
     founded: 1926,
     sourceTitle: "Nationwide Mutual Insurance Company — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Nationwide_Mutual_Insurance_Company",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "broadcom": {
+  broadcom: {
     founded: 1961,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -525,7 +525,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "pfizer": {
+  pfizer: {
     founded: 1849,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -539,7 +539,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "conocophillips": {
+  conocophillips: {
     founded: 2002,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -553,7 +553,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "abbvie": {
+  abbvie: {
     founded: 1888,
     modernEstablished: 2013,
     sourceTitle: "S&P 500 company reference — founding year",
@@ -568,7 +568,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "tjx": {
+  tjx: {
     founded: 1987,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -589,7 +589,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "oracle": {
+  oracle: {
     founded: 1977,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -603,7 +603,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "hp": {
+  hp: {
     founded: 1939,
     modernEstablished: 2015,
     sourceTitle: "S&P 500 company reference — founding year",
@@ -632,7 +632,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "intel": {
+  intel: {
     founded: 1968,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -667,14 +667,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "usaa": {
+  usaa: {
     founded: 1922,
     sourceTitle: "USAA — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/USAA",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "tiaa": {
+  tiaa: {
     founded: 1918,
     sourceTitle: "TIAA — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/TIAA",
@@ -688,7 +688,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "travelers": {
+  travelers: {
     founded: 1853,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -710,7 +710,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "nike": {
+  nike: {
     founded: 1964,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -731,7 +731,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "deere": {
+  deere: {
     founded: 1837,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -752,7 +752,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "netflix": {
+  netflix: {
     founded: 1997,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -774,7 +774,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "qualcomm": {
+  qualcomm: {
     founded: 1985,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -817,7 +817,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "salesforce": {
+  salesforce: {
     founded: 1999,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -853,14 +853,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "visa": {
+  visa: {
     founded: 1958,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "dow": {
+  dow: {
     founded: 1897,
     modernEstablished: 2019,
     sourceTitle: "S&P 500 company reference — founding year",
@@ -911,7 +911,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "starbucks": {
+  starbucks: {
     founded: 1971,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -925,14 +925,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "amgen": {
+  amgen: {
     founded: 1980,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "chs": {
+  chs: {
     founded: 1966,
     sourceTitle: "founders.io company-history record",
     sourceUrl: "https://founders.io/company/chs",
@@ -946,7 +946,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "coupang": {
+  coupang: {
     founded: 2010,
     modernEstablished: 2019,
     sourceTitle: "Coupang — company history",
@@ -968,7 +968,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "lennar": {
+  lennar: {
     founded: 1954,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -982,14 +982,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "cummins": {
+  cummins: {
     founded: 1919,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "oneok": {
+  oneok: {
     founded: 1906,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1011,14 +1011,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "mastercard": {
+  mastercard: {
     founded: 1966,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "nucor": {
+  nucor: {
     founded: 1940,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1081,14 +1081,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "jabil": {
+  jabil: {
     founded: 1966,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "southern": {
+  southern: {
     founded: 1945,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1117,7 +1117,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "kkr": {
+  kkr: {
     founded: 1976,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1131,14 +1131,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "paccar": {
+  paccar: {
     founded: 1905,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "medline": {
+  medline: {
     founded: 1966,
     sourceTitle: "Medline Inc. — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Medline_Inc.",
@@ -1159,7 +1159,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "carmax": {
+  carmax: {
     founded: 1993,
     sourceTitle: "CarMax — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/CarMax",
@@ -1187,7 +1187,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "autonation": {
+  autonation: {
     founded: 1996,
     sourceTitle: "AutoNation — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/AutoNation",
@@ -1230,7 +1230,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "aig": {
+  aig: {
     founded: 1892,
     modernEstablished: 2021,
     sourceTitle: "American International Group — company history",
@@ -1295,7 +1295,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "stryker": {
+  stryker: {
     founded: 1941,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1331,7 +1331,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "danaher": {
+  danaher: {
     founded: 1969,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1352,28 +1352,28 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "exelon": {
+  exelon: {
     founded: 2000,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "blackrock": {
+  blackrock: {
     founded: 1988,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "block": {
+  block: {
     founded: 2009,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "adobe": {
+  adobe: {
     founded: 1982,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1401,14 +1401,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "lear": {
+  lear: {
     founded: 1917,
     sourceTitle: "Lear Corporation — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Lear_Corporation",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "synchrony": {
+  synchrony: {
     founded: 2000,
     modernEstablished: 2016,
     sourceTitle: "Synchrony Financial — company history",
@@ -1416,7 +1416,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "amphenol": {
+  amphenol: {
     founded: 1932,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1430,7 +1430,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "newmont": {
+  newmont: {
     founded: 1921,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1465,21 +1465,21 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "cdw": {
+  cdw: {
     founded: 1984,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "avnet": {
+  avnet: {
     founded: 1921,
     sourceTitle: "Avnet — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Avnet",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "halliburton": {
+  halliburton: {
     founded: 1919,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1537,7 +1537,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "fiserv": {
+  fiserv: {
     founded: 1984,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1573,7 +1573,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "carvana": {
+  carvana: {
     founded: 2012,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1636,7 +1636,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "autozone": {
+  autozone: {
     founded: 1979,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1650,7 +1650,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "intuit": {
+  intuit: {
     founded: 1983,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1678,7 +1678,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "aramark": {
+  aramark: {
     founded: 1936,
     modernEstablished: 1959,
     sourceTitle: "Aramark — company history",
@@ -1694,7 +1694,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "loews": {
+  loews: {
     founded: 1959,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1765,7 +1765,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "manpowergroup": {
+  manpowergroup: {
     founded: 1948,
     sourceTitle: "ManpowerGroup — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/ManpowerGroup",
@@ -1793,7 +1793,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "vistra": {
+  vistra: {
     founded: 2016,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1814,7 +1814,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "corteva": {
+  corteva: {
     founded: 2019,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1828,7 +1828,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "pultegroup": {
+  pultegroup: {
     founded: 1956,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1863,7 +1863,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "aflac": {
+  aflac: {
     founded: 1955,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -1964,14 +1964,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "fox": {
+  fox: {
     founded: 2019,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "aecom": {
+  aecom: {
     founded: 1990,
     sourceTitle: "AECOM — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/AECOM",
@@ -1999,7 +1999,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "ecolab": {
+  ecolab: {
     founded: 1923,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2041,7 +2041,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "corning": {
+  corning: {
     founded: 1851,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2076,21 +2076,21 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "whirlpool": {
+  whirlpool: {
     founded: 1911,
     sourceTitle: "Whirlpool Corporation — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Whirlpool_Corporation",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "fluor": {
+  fluor: {
     founded: 1912,
     sourceTitle: "Fluor Corporation — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Fluor_Corporation",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "gap": {
+  gap: {
     founded: 1969,
     sourceTitle: "founders.io company-history record",
     sourceUrl: "https://en.wikipedia.org/wiki/Gap_Inc.",
@@ -2132,7 +2132,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "kenvue": {
+  kenvue: {
     founded: 2022,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2153,14 +2153,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "echostar": {
+  echostar: {
     founded: 2008,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "textron": {
+  textron: {
     founded: 1923,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2188,7 +2188,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "firstenergy": {
+  firstenergy: {
     founded: 1997,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2209,7 +2209,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "blackstone": {
+  blackstone: {
     founded: 1985,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2252,7 +2252,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "borgwarner": {
+  borgwarner: {
     founded: 1880,
     sourceTitle: "BorgWarner — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/BorgWarner",
@@ -2266,21 +2266,21 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "viatris": {
+  viatris: {
     founded: 1961,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "mastec": {
+  mastec: {
     founded: 1994,
     sourceTitle: "MasTec — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/MasTec",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "reliance": {
+  reliance: {
     founded: 1939,
     sourceTitle: "Reliance, Inc. — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Reliance%2C_Inc.",
@@ -2301,14 +2301,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "csx": {
+  csx: {
     founded: 1980,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "lkq": {
+  lkq: {
     founded: 1998,
     sourceTitle: "LKQ Corporation — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/LKQ_Corporation",
@@ -2329,21 +2329,21 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "doordash": {
+  doordash: {
     founded: 2012,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "sempra": {
+  sempra: {
     founded: 1998,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "davita": {
+  davita: {
     founded: 1979,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2357,7 +2357,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "servicenow": {
+  servicenow: {
     founded: 2003,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2385,7 +2385,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "ball": {
+  ball: {
     founded: 1880,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2406,7 +2406,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "entergy": {
+  entergy: {
     founded: 1913,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2434,14 +2434,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "alcoa": {
+  alcoa: {
     founded: 1888,
     sourceTitle: "Alcoa — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Alcoa",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "assurant": {
+  assurant: {
     founded: 1892,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2469,7 +2469,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "chewy": {
+  chewy: {
     founded: 2011,
     sourceTitle: "founders.io company-history record",
     sourceUrl: "https://en.wikipedia.org/wiki/Chewy_(company)",
@@ -2497,7 +2497,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "wayfair": {
+  wayfair: {
     founded: 2002,
     sourceTitle: "Wayfair — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Wayfair",
@@ -2525,14 +2525,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "airbnb": {
+  airbnb: {
     founded: 2008,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "aes": {
+  aes: {
     founded: 1981,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2554,7 +2554,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "kla": {
+  kla: {
     founded: 1975,
     modernEstablished: 1997,
     sourceTitle: "S&P 500 company reference — founding year",
@@ -2590,7 +2590,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "mosaic": {
+  mosaic: {
     founded: 1865,
     modernEstablished: 2004,
     sourceTitle: "S&P 500 company reference — founding year",
@@ -2640,7 +2640,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "williams": {
+  williams: {
     founded: 1908,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2668,7 +2668,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "hershey": {
+  hershey: {
     founded: 1894,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2733,7 +2733,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "keycorp": {
+  keycorp: {
     founded: 1825,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2748,7 +2748,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "westlake": {
+  westlake: {
     founded: 1986,
     sourceTitle: "Westlake Corporation — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Westlake_Corporation",
@@ -2777,14 +2777,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "fm": {
+  fm: {
     founded: 1835,
     sourceTitle: "FM (insurance) — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/FM_%28insurance%29",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "ebay": {
+  ebay: {
     founded: 1995,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2812,7 +2812,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "andersons": {
+  andersons: {
     founded: 1947,
     sourceTitle: "The Andersons — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/The_Andersons",
@@ -2842,7 +2842,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "welltower": {
+  welltower: {
     founded: 1970,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2856,7 +2856,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "autoliv": {
+  autoliv: {
     founded: 1953,
     sourceTitle: "Autoliv — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Autoliv",
@@ -2899,7 +2899,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "nvr": {
+  nvr: {
     founded: 1980,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2913,14 +2913,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "oshkosh": {
+  oshkosh: {
     founded: 1917,
     sourceTitle: "Oshkosh Corporation — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Oshkosh_Corporation",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "cintas": {
+  cintas: {
     founded: 1929,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2955,7 +2955,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "agco": {
+  agco: {
     founded: 1990,
     sourceTitle: "AGCO — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/AGCO",
@@ -2977,14 +2977,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "dana": {
+  dana: {
     founded: 1904,
     sourceTitle: "Dana Incorporated — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Dana_Incorporated",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "biogen": {
+  biogen: {
     founded: 1978,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -2999,7 +2999,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "concentrix": {
+  concentrix: {
     founded: 2004,
     sourceTitle: "Concentrix — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Concentrix",
@@ -3013,14 +3013,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "vf": {
+  vf: {
     founded: 1899,
     sourceTitle: "VF Corporation — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/VF_Corporation",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "seaboard": {
+  seaboard: {
     founded: 1918,
     sourceTitle: "Seaboard Corporation — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Seaboard_Corporation",
@@ -3048,14 +3048,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "workday": {
+  workday: {
     founded: 2005,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "celanese": {
+  celanese: {
     founded: 1918,
     sourceTitle: "Celanese — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Celanese",
@@ -3076,7 +3076,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "zoetis": {
+  zoetis: {
     founded: 1952,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3090,7 +3090,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "equinix": {
+  equinix: {
     founded: 1998,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3104,7 +3104,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "apa": {
+  apa: {
     founded: 1954,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3132,14 +3132,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "ppl": {
+  ppl: {
     founded: 1920,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "xylem": {
+  xylem: {
     founded: 2011,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3160,14 +3160,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "pvh": {
+  pvh: {
     founded: 1881,
     sourceTitle: "PVH Corp. — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/PVH_Corp.",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "ovintiv": {
+  ovintiv: {
     founded: 2002,
     modernEstablished: 2020,
     sourceTitle: "Ovintiv — company history",
@@ -3196,7 +3196,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "prologis": {
+  prologis: {
     founded: 1983,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3224,7 +3224,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "nov": {
+  nov: {
     founded: 1862,
     sourceTitle: "NOV Inc. — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/NOV_Inc.",
@@ -3245,7 +3245,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "eqt": {
+  eqt: {
     founded: 1888,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3294,7 +3294,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "ameren": {
+  ameren: {
     founded: 1902,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3308,7 +3308,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "solventum": {
+  solventum: {
     founded: 2023,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3323,7 +3323,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "nasdaq": {
+  nasdaq: {
     founded: 1971,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3358,7 +3358,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "fastenal": {
+  fastenal: {
     founded: 1967,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3393,14 +3393,14 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "xpo": {
+  xpo: {
     founded: 1987,
     sourceTitle: "founders.io company-history record",
     sourceUrl: "https://en.wikipedia.org/wiki/XPO,_Inc.",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "dupont": {
+  dupont: {
     founded: 1802,
     modernEstablished: 2017,
     sourceTitle: "S&P 500 company reference — founding year",
@@ -3408,7 +3408,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "sanmina": {
+  sanmina: {
     founded: 1980,
     sourceTitle: "Sanmina Corporation — company history",
     sourceUrl: "https://en.wikipedia.org/wiki/Sanmina_Corporation",
@@ -3422,7 +3422,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "dover": {
+  dover: {
     founded: 1955,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3440,7 +3440,8 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     founded: 1926,
     modernEstablished: 1997,
     sourceTitle: "APi Group 2025 annual report — company timeline",
-    sourceUrl: "https://www.sec.gov/Archives/edgar/data/0001796209/000162828026023530/apigroup2025annualreport.pdf",
+    sourceUrl:
+      "https://www.sec.gov/Archives/edgar/data/0001796209/000162828026023530/apigroup2025annualreport.pdf",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
@@ -3451,7 +3452,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "kbr": {
+  kbr: {
     founded: 1901,
     modernEstablished: 2006,
     sourceTitle: "KBR, Inc. — company history",
@@ -3511,7 +3512,8 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
   "coterra-energy": {
     founded: 2021,
     sourceTitle: "Cabot and Cimarex combination forming Coterra Energy",
-    sourceUrl: "https://www.coterra.com/wp-content/uploads/2021/10/Cabot-Oil-Gas-and-Cimarex-Energy-Complete-Combination-Forming-Coterra-Energy.pdf",
+    sourceUrl:
+      "https://www.coterra.com/wp-content/uploads/2021/10/Cabot-Oil-Gas-and-Cimarex-Energy-Complete-Combination-Forming-Coterra-Energy.pdf",
     verifiedAt: "2026-09-07",
     status: "verified",
   },
@@ -3522,7 +3524,7 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
     verifiedAt: "2026-09-07",
     status: "verified",
   },
-  "masco": {
+  masco: {
     founded: 1929,
     sourceTitle: "S&P 500 company reference — founding year",
     sourceUrl: "https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv",
@@ -3539,7 +3541,8 @@ export const companyFoundings: Record<string, CompanyFoundingRecord> = {
   "resideo-technologies": {
     founded: 2018,
     sourceTitle: "Resideo standalone-company announcement",
-    sourceUrl: "https://www.resideo.com/us/en/corporate/newsroom/all-articles/Resideo-Announces-Third-Quarter-2018-Financial-Results/",
+    sourceUrl:
+      "https://www.resideo.com/us/en/corporate/newsroom/all-articles/Resideo-Announces-Third-Quarter-2018-Financial-Results/",
     verifiedAt: "2026-09-07",
     status: "verified",
   },

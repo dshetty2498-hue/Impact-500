@@ -23,7 +23,9 @@ export default function ResearchCyclesPage() {
       <section className="mt-12 border-y bg-[#0d151e] p-6 md:p-8">
         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-start">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[.18em] text-cyan">Current cycle</p>
+            <p className="text-xs font-semibold uppercase tracking-[.18em] text-cyan">
+              Current cycle
+            </p>
             <h2 className="display mt-3 text-3xl">{currentResearchCycle.name}</h2>
             <p className="mt-3 max-w-3xl leading-7 text-slate-400">{currentResearchCycle.note}</p>
           </div>
@@ -34,8 +36,14 @@ export default function ResearchCyclesPage() {
         <dl className="mt-8 grid gap-5 border-t pt-6 sm:grid-cols-2 lg:grid-cols-4">
           <CycleMetric label="Cycle began" value="September 29, 2026" />
           <CycleMetric label="Universe" value={`${companies.length} companies`} />
-          <CycleMetric label="Evidence reviews completed" value={`${currentResearchCycle.companiesReviewed}`} />
-          <CycleMetric label="Validated score updates" value={`${currentResearchCycle.companiesWithUpdatedScores}`} />
+          <CycleMetric
+            label="Evidence reviews completed"
+            value={`${currentResearchCycle.companiesReviewed}`}
+          />
+          <CycleMetric
+            label="Validated score updates"
+            value={`${currentResearchCycle.companiesWithUpdatedScores}`}
+          />
         </dl>
       </section>
 
@@ -43,7 +51,10 @@ export default function ResearchCyclesPage() {
         <h2 className="display text-3xl">Publication history</h2>
         <div className="mt-7 divide-y border-y">
           {[...researchCycles].reverse().map((cycle) => (
-            <article key={cycle.id} className="grid gap-4 py-6 md:grid-cols-[1fr_auto] md:items-center">
+            <article
+              key={cycle.id}
+              className="grid gap-4 py-6 md:grid-cols-[1fr_auto] md:items-center"
+            >
               <div>
                 <div className="flex items-center gap-3">
                   {cycle.status === "complete" ? (
@@ -56,8 +67,16 @@ export default function ResearchCyclesPage() {
                 <p className="mt-2 text-sm leading-6 text-slate-500">{cycle.note}</p>
               </div>
               <dl className="grid grid-cols-2 gap-x-8 gap-y-2 text-xs md:text-right">
-                <div><dt className="text-slate-500">Status</dt><dd className="mt-1 text-white">{cycle.status === "complete" ? "Complete" : "Updating"}</dd></div>
-                <div><dt className="text-slate-500">Methodology</dt><dd className="mt-1 text-white">v{cycle.methodologyVersion}</dd></div>
+                <div>
+                  <dt className="text-slate-500">Status</dt>
+                  <dd className="mt-1 text-white">
+                    {cycle.status === "complete" ? "Complete" : "Updating"}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-slate-500">Methodology</dt>
+                  <dd className="mt-1 text-white">v{cycle.methodologyVersion}</dd>
+                </div>
               </dl>
             </article>
           ))}
@@ -68,9 +87,21 @@ export default function ResearchCyclesPage() {
         <h2 className="display text-3xl">Publication gate</h2>
         <ol className="mt-6 grid gap-5 md:grid-cols-3">
           {[
-            ["01", "Evidence review", "Material observations require a traceable source, reporting period, and verification status."],
-            ["02", "Scoring and ranking", "The shared engine applies the four equal pillar weights, grading thresholds, and deterministic ranking order."],
-            ["03", "Integrity validation", "The cycle closes only after company, score, ranking, route, and cross-site consistency checks pass."],
+            [
+              "01",
+              "Evidence review",
+              "Material observations require a traceable source, reporting period, and verification status.",
+            ],
+            [
+              "02",
+              "Scoring and ranking",
+              "The shared engine applies the four equal pillar weights, grading thresholds, and deterministic ranking order.",
+            ],
+            [
+              "03",
+              "Integrity validation",
+              "The cycle closes only after company, score, ranking, route, and cross-site consistency checks pass.",
+            ],
           ].map(([number, title, body]) => (
             <li key={number} className="border-t-2 border-cyan pt-5">
               <span className="text-xs text-cyan">{number}</span>
@@ -79,7 +110,10 @@ export default function ResearchCyclesPage() {
             </li>
           ))}
         </ol>
-        <Link href="/methodology" className="mt-8 inline-flex text-sm font-semibold text-cyan hover:text-white">
+        <Link
+          href="/methodology"
+          className="mt-8 inline-flex text-sm font-semibold text-cyan hover:text-white"
+        >
           Read the complete methodology →
         </Link>
       </section>

@@ -81,9 +81,12 @@ const templates: Record<RiskCategory, RiskTemplate> = {
     category: "Environmental Risk",
     baseLevel: "Elevated",
     frameworkPillar: "Environmental",
-    context: "The sector can have material energy, emissions, water, waste, or physical-climate exposure.",
-    whyItMatters: "Environmental performance can affect operating continuity, capital needs, disclosure credibility, and community relationships.",
-    potentialImplication: "Weak measurement or transition planning could increase operating, compliance, financing, or reputation pressure.",
+    context:
+      "The sector can have material energy, emissions, water, waste, or physical-climate exposure.",
+    whyItMatters:
+      "Environmental performance can affect operating continuity, capital needs, disclosure credibility, and community relationships.",
+    potentialImplication:
+      "Weak measurement or transition planning could increase operating, compliance, financing, or reputation pressure.",
     source: sources.environmental,
   },
   "Supply Chain Risk": {
@@ -91,71 +94,94 @@ const templates: Record<RiskCategory, RiskTemplate> = {
     baseLevel: "Elevated",
     frameworkPillar: "Ethics",
     context: "The sector relies on extended supplier, contractor, logistics, or sourcing networks.",
-    whyItMatters: "Limited traceability can obscure labor, human-rights, environmental, resilience, and product-quality exposure.",
-    potentialImplication: "A control failure could disrupt supply, raise remediation costs, or weaken stakeholder confidence.",
+    whyItMatters:
+      "Limited traceability can obscure labor, human-rights, environmental, resilience, and product-quality exposure.",
+    potentialImplication:
+      "A control failure could disrupt supply, raise remediation costs, or weaken stakeholder confidence.",
     source: sources.supplyChain,
   },
   "Regulatory Risk": {
     category: "Regulatory Risk",
     baseLevel: "Elevated",
     frameworkPillar: "Ethics",
-    context: "The sector operates under material licensing, safety, market-conduct, reporting, or product requirements.",
-    whyItMatters: "Changes in rules or weak compliance controls can affect market access, costs, and stakeholder outcomes.",
-    potentialImplication: "Control gaps or changing obligations could require remediation, investment, or changes to products and operations.",
+    context:
+      "The sector operates under material licensing, safety, market-conduct, reporting, or product requirements.",
+    whyItMatters:
+      "Changes in rules or weak compliance controls can affect market access, costs, and stakeholder outcomes.",
+    potentialImplication:
+      "Control gaps or changing obligations could require remediation, investment, or changes to products and operations.",
     source: sources.regulatory,
   },
   "Governance Risk": {
     category: "Governance Risk",
     baseLevel: "Moderate",
     frameworkPillar: "Ethics",
-    context: "Large, complex organizations depend on clear oversight, incentives, controls, and escalation channels.",
-    whyItMatters: "Board and executive governance determines whether responsibility commitments influence real operating decisions.",
-    potentialImplication: "Unclear accountability could slow issue detection, corrective action, and credible disclosure.",
+    context:
+      "Large, complex organizations depend on clear oversight, incentives, controls, and escalation channels.",
+    whyItMatters:
+      "Board and executive governance determines whether responsibility commitments influence real operating decisions.",
+    potentialImplication:
+      "Unclear accountability could slow issue detection, corrective action, and credible disclosure.",
     source: sources.governance,
   },
   "Workforce Risk": {
     category: "Workforce Risk",
     baseLevel: "Moderate",
     frameworkPillar: "Ethics",
-    context: "The operating model depends on a substantial, distributed, specialized, or frontline workforce.",
-    whyItMatters: "Safety, retention, skills, scheduling, and employee voice can materially affect execution and social impact.",
-    potentialImplication: "Persistent workforce gaps could affect continuity, service quality, costs, and trust.",
+    context:
+      "The operating model depends on a substantial, distributed, specialized, or frontline workforce.",
+    whyItMatters:
+      "Safety, retention, skills, scheduling, and employee voice can materially affect execution and social impact.",
+    potentialImplication:
+      "Persistent workforce gaps could affect continuity, service quality, costs, and trust.",
     source: sources.workforce,
   },
   "Reputational Risk": {
     category: "Reputational Risk",
     baseLevel: "Moderate",
     frameworkPillar: "Ethics",
-    context: "The business has direct consumer visibility or makes public product and responsibility claims.",
-    whyItMatters: "Trust depends on claims being specific, substantiated, and consistent with disclosed outcomes.",
-    potentialImplication: "A gap between claims and evidence could reduce customer, employee, or investor confidence.",
+    context:
+      "The business has direct consumer visibility or makes public product and responsibility claims.",
+    whyItMatters:
+      "Trust depends on claims being specific, substantiated, and consistent with disclosed outcomes.",
+    potentialImplication:
+      "A gap between claims and evidence could reduce customer, employee, or investor confidence.",
     source: sources.reputation,
   },
   "Financial Responsibility Risk": {
     category: "Financial Responsibility Risk",
     baseLevel: "Elevated",
     frameworkPillar: "Financial responsibility",
-    context: "The business influences access to credit, insurance, investment, payment, or other essential financial products.",
-    whyItMatters: "Product fairness, customer outcomes, access, and risk governance are central responsibility concerns.",
-    potentialImplication: "Weak customer-outcome controls could create compliance, remediation, and trust costs.",
+    context:
+      "The business influences access to credit, insurance, investment, payment, or other essential financial products.",
+    whyItMatters:
+      "Product fairness, customer outcomes, access, and risk governance are central responsibility concerns.",
+    potentialImplication:
+      "Weak customer-outcome controls could create compliance, remediation, and trust costs.",
     source: sources.finance,
   },
   "Technology / Cyber Risk": {
     category: "Technology / Cyber Risk",
     baseLevel: "Elevated",
     frameworkPillar: "Ethics",
-    context: "The company depends on digital systems, sensitive data, connected products, or critical technology infrastructure.",
-    whyItMatters: "Security, privacy, resilience, and responsible-technology controls affect customers and business continuity.",
-    potentialImplication: "A material control failure could disrupt operations, expose data, or require costly remediation.",
+    context:
+      "The company depends on digital systems, sensitive data, connected products, or critical technology infrastructure.",
+    whyItMatters:
+      "Security, privacy, resilience, and responsible-technology controls affect customers and business continuity.",
+    potentialImplication:
+      "A material control failure could disrupt operations, expose data, or require costly remediation.",
     source: sources.cyber,
   },
   "Geopolitical Risk": {
     category: "Geopolitical Risk",
     baseLevel: "Moderate",
     frameworkPillar: "Financial responsibility",
-    context: "The sector often depends on cross-border markets, specialized inputs, trade routes, or international regulation.",
-    whyItMatters: "Trade restrictions, conflict, sanctions, and market fragmentation can change sourcing and operating assumptions.",
-    potentialImplication: "Concentration or abrupt policy changes could increase costs or interrupt access to inputs and markets.",
+    context:
+      "The sector often depends on cross-border markets, specialized inputs, trade routes, or international regulation.",
+    whyItMatters:
+      "Trade restrictions, conflict, sanctions, and market fragmentation can change sourcing and operating assumptions.",
+    potentialImplication:
+      "Concentration or abrupt policy changes could increase costs or interrupt access to inputs and markets.",
     source: sources.geopolitical,
   },
 };
@@ -165,14 +191,21 @@ const categorySet = (industry: string): RiskCategory[] => {
   if (/petroleum|energy|utility|utilities|mining|chemical|metals|forest|pipeline/.test(value))
     return ["Environmental Risk", "Regulatory Risk", "Workforce Risk", "Reputational Risk"];
   if (/bank|insurance|financial|securities|diversified financial|real estate/.test(value))
-    return ["Financial Responsibility Risk", "Regulatory Risk", "Technology / Cyber Risk", "Governance Risk"];
+    return [
+      "Financial Responsibility Risk",
+      "Regulatory Risk",
+      "Technology / Cyber Risk",
+      "Governance Risk",
+    ];
   if (/computer|software|internet|telecommunication|semiconductor|network|electronics/.test(value))
     return ["Technology / Cyber Risk", "Supply Chain Risk", "Governance Risk", "Geopolitical Risk"];
   if (/health|pharmaceutical|medical/.test(value))
     return ["Regulatory Risk", "Technology / Cyber Risk", "Supply Chain Risk", "Workforce Risk"];
   if (/retail|apparel|food|beverage|wholesale|consumer|household|restaurant/.test(value))
     return ["Supply Chain Risk", "Workforce Risk", "Reputational Risk", "Environmental Risk"];
-  if (/aerospace|transport|airline|automotive|motor vehicle|logistics|shipping|railroad/.test(value))
+  if (
+    /aerospace|transport|airline|automotive|motor vehicle|logistics|shipping|railroad/.test(value)
+  )
     return ["Environmental Risk", "Supply Chain Risk", "Workforce Risk", "Geopolitical Risk"];
   return ["Governance Risk", "Workforce Risk", "Technology / Cyber Risk"];
 };
@@ -265,18 +298,26 @@ export function analystObservations(company: Company, allCompanies: readonly Com
   ];
 }
 
-export function industryRiskLandscape(members: readonly Company[], allCompanies: readonly Company[]) {
+export function industryRiskLandscape(
+  members: readonly Company[],
+  allCompanies: readonly Company[],
+) {
   const analyses = members.map((company) => ({
     company,
     analysis: companyRiskAnalysis(company, allCompanies),
   }));
   const counts = new Map<RiskCategory, number>();
   for (const { analysis } of analyses)
-    for (const risk of analysis.risks) counts.set(risk.category, (counts.get(risk.category) ?? 0) + 1);
+    for (const risk of analysis.risks)
+      counts.set(risk.category, (counts.get(risk.category) ?? 0) + 1);
   const common = [...counts.entries()]
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
-    .map(([category, count]) => ({ category, count, share: Math.round((count / members.length) * 100) }));
+    .map(([category, count]) => ({
+      category,
+      count,
+      share: Math.round((count / members.length) * 100),
+    }));
   const exposed = analyses
     .filter(({ analysis }) => analysis.profile === "High" || analysis.profile === "Elevated")
     .sort((a, b) => a.company.score - b.company.score)
@@ -303,7 +344,9 @@ export function validateCompanyIntelligence(companies: readonly Company[]) {
   return {
     checked: companies.length,
     foundedResolved: companies.filter((company) => company.founded !== null).length,
-    foundedUnresolved: companies.filter((company) => company.founded === null).map((item) => item.slug),
+    foundedUnresolved: companies
+      .filter((company) => company.founded === null)
+      .map((item) => item.slug),
     issues,
   };
 }

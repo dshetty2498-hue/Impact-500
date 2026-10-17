@@ -42,7 +42,8 @@ const [{ data: companies }, { data: industries }, { data: cycle }] = await Promi
 ]);
 
 const errors = [];
-if (companies.length !== 500) errors.push(`Company API returned ${companies.length}, expected 500.`);
+if (companies.length !== 500)
+  errors.push(`Company API returned ${companies.length}, expected 500.`);
 if (new Set(companies.map((company) => company.slug)).size !== companies.length) {
   errors.push("Company API contains duplicate slugs.");
 }
@@ -53,7 +54,12 @@ errors.push(
   ...(await eachConcurrent(companies, 24, async (company) => {
     const path = `/companies/${company.slug}`;
     const html = await get(path);
-    requireText(html, path, ["Research Cycle:", "Risk Analysis", "Analyst Observations", "Founded"]);
+    requireText(html, path, [
+      "Research Cycle:",
+      "Risk Analysis",
+      "Analyst Observations",
+      "Founded",
+    ]);
   })),
 );
 
